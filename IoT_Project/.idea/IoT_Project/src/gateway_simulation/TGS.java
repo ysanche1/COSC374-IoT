@@ -35,14 +35,15 @@ public class TGS {
         return sgtMessage;
     }
 
-    private Message createReply(Message m) {
+    private Message createReply(Message m) throws Exception {
         keyC_V = m.ticket.key;
         date = new Date();
         String timestamp = String.valueOf(date.getTime());
         sgt = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID,
                 timestamp, timestamp+3000);
         sgtMessage = new Message(keyC_V, m.serverID, sgt, timestamp);
-        sgtMessage = aes.encryptMessage(keyC_V, keyTGS_V);
+        aes = new AESAlgorithm(keyC_V, keyTGS_V);
+        aes.encryptMessage(sgtMessage);
         System.out.println("	******MESSAGE 4 SENT**********\n");
         return sgtMessage;
     }

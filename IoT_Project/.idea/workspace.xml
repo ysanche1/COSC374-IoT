@@ -19,9 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +43,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AES_APP" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../IoT_Project" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -123,10 +121,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="439" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1604426099325" />
-    <state x="835" y="303" key="FileChooserDialogImpl" timestamp="1604430365502">
+    <state x="835" y="303" key="FileChooserDialogImpl" timestamp="1604431263360">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="835" y="303" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604430365502" />
+    <state x="835" y="303" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604431263360" />
     <state width="1877" height="552" key="GridCell.Tab.0.bottom" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
