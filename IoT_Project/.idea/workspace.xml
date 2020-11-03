@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="" />
+    <list default="true" id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +45,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AES_APP" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -121,38 +123,42 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="439" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1604426099325" />
-    <state width="1877" height="552" key="GridCell.Tab.0.bottom" timestamp="1604426062490">
+    <state x="835" y="303" key="FileChooserDialogImpl" timestamp="1604430365502">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604426062490" />
-    <state width="1877" height="552" key="GridCell.Tab.0.center" timestamp="1604426062490">
+    <state x="835" y="303" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604430365502" />
+    <state width="1877" height="552" key="GridCell.Tab.0.bottom" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604426062490" />
-    <state width="1877" height="552" key="GridCell.Tab.0.left" timestamp="1604426062490">
+    <state width="1877" height="552" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.0.center" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604426062490" />
-    <state width="1877" height="552" key="GridCell.Tab.0.right" timestamp="1604426062490">
+    <state width="1877" height="552" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.0.left" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604426062490" />
-    <state width="1877" height="552" key="GridCell.Tab.1.bottom" timestamp="1604426068153">
+    <state width="1877" height="552" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.0.right" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604426068153" />
-    <state width="1877" height="552" key="GridCell.Tab.1.center" timestamp="1604426068153">
+    <state width="1877" height="552" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.1.bottom" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604426068153" />
-    <state width="1877" height="552" key="GridCell.Tab.1.left" timestamp="1604426068153">
+    <state width="1877" height="552" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.1.center" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604426068153" />
-    <state width="1877" height="552" key="GridCell.Tab.1.right" timestamp="1604426068153">
+    <state width="1877" height="552" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.1.left" timestamp="1604429243056">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604426068153" />
+    <state width="1877" height="552" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
+    <state width="1877" height="552" key="GridCell.Tab.1.right" timestamp="1604429243056">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="552" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
     <state x="635" y="171" key="SettingsEditor" timestamp="1604425569200">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -165,6 +171,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="611" y="355" width="909" height="629" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1604094657406" />
+    <state x="685" y="321" key="new project wizard" timestamp="1604429709469">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="685" y="321" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1604429709469" />
     <state x="832" y="272" key="run.anything.popup" timestamp="1604293013741">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
