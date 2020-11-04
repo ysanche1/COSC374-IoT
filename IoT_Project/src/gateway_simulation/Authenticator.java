@@ -15,8 +15,6 @@ public class Authenticator{
         this.key = key; this.clientID = cID;
         this.clientAddress = cAD;
         date = new Date(); timestamp = String.valueOf(date.getTime());
-
-
     }
 }
 

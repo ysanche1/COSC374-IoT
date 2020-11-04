@@ -11,31 +11,35 @@ public class Message {
     Authenticator auth;
     String serverID;
     String key;
-    String ticketRetrieval = "success";
-    boolean containsTicket;
-    boolean containsAuth;
+    String ticketRetrieval = "success"; //checked after decryption of ticket-bearing message
+    boolean containsTicket; //for displayContent()
+    boolean containsAuth; //^
     boolean error = false; //set to true if bad info is given
 
+    //sometimes you need one of these
     public Message(){
 
     }
 
     public void displayContents()
     {
-        System.out.println("Contents of Message "+mNum+":");         processing.processFast();
-        System.out.print("  Key = "+ key +" ||");                     processing.processFast();
-        System.out.print(" Client ID = "+ clientID +" ||");          processing.processFast();
-        System.out.print(" Server ID = "+serverID+" ||\n");           processing.processFast();
-        System.out.print("  Timestamp = "+timestamp+" ||");          processing.processFast();
-        System.out.print(" Lifetime = "+lifetime+" ||\n");            processing.processFast();
-        processing.processMed();
+        System.out.println("Contents of Message "+mNum+":");    processing.processMed();
+        System.out.print("  Key = "+ key +" ||");               processing.processMed();
+        System.out.print(" Client ID = "+ clientID +" ||");               processing.processMed();
+        System.out.print(" Server ID = "+serverID+" ||\n");               processing.processMed();
+        System.out.print("  Timestamp = "+timestamp+" ||");               processing.processMed();
+        System.out.print(" Lifetime = "+lifetime+" ||\n");               processing.processMed();
         if(!containsTicket)
             System.out.print("      No Ticket ");
-        if(!containsAuth)
+        if(!containsAuth){
             System.out.print("    No Authenticator");
-            System.out.println("\n");
+            System.out.println("\n");}
+            if(containsTicket && containsAuth)
+                System.out.print("\n");
+        processing.processMed();
     }
 
+    //called after failed authentication
     public void clear(){
         mNum =-1;
         clientID = null;
@@ -49,6 +53,7 @@ public class Message {
         containsAuth = false;
     }
 
+    //lots of constructors for different messages
 
     //MESSAGE 1 Client to AS
     public Message(String cID, String tgsID, String timestamp){
