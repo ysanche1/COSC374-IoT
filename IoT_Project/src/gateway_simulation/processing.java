@@ -1,24 +1,27 @@
 package gateway_simulation;
 
+
+//this class makes the program look like it's really doing something
+//not great for debugging
 public class processing {
     static void processLong()
     {
         try{
-            Thread.sleep(500);
+            Thread.sleep(0);  //500
         }catch(Exception e){}
     }
 
     static void processMed()
     {
         try{
-            Thread.sleep(150);
+            Thread.sleep(0);  //210
         }catch(Exception e){}
     }
 
     static void processFast()
     {
         try{
-            Thread.sleep(70);
+            Thread.sleep(150);
         }catch(Exception e){}
     }
 }

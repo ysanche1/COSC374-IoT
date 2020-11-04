@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintStream;
 import java.util.Date;
 
 public class Login extends JFrame {
@@ -29,31 +28,32 @@ public class Login extends JFrame {
     String gatewayID = "gateway374";
     Message message;
     Ticket ticket;
-    Boolean ticketRetrievalOK;
 
     public Login(String name, Kerberos kdc) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setTitle(name);
         setContentPane(mainPanel);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         getRootPane().setDefaultButton(loginButton);
-        int frameX = (screenSize.width / 2) - (getWidth() / 2);
-        int frameY = screenSize.height / 4;
-        setLocation(frameX, frameY);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // put the window in a nice spot
+        int frameX = (screenSize.width / 2) - (getWidth() / 2);             //
+        int frameY = (screenSize.height / 2) - (getHeight());;                                 //
+        setLocation(frameX, frameY);                                        //
         setVisible(true);
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //get text in fields and close the window
                 System.out.println("    ******LOGIN BUTTON PRESSED******\n");
+                processing.processMed();
                 clientID = clientIdField.getText();
                 password = String.copyValueOf(passwordField.getPassword());
                 setVisible(false);
                 clientIdField.setText("");
                 passwordField.setText("");
                 try {
-                    authorizationExchangeInit(kdc);
+                    authorizationExchangeInit(kdc); //begin message 1
                 } catch (Exception interruptedException) {
                     interruptedException.printStackTrace();
                 }
@@ -66,24 +66,27 @@ public class Login extends JFrame {
         });
     }
 
-
+    //send message 1 and be judged by Authorization Server
     public void authorizationExchangeInit(Kerberos kdc) throws Exception        //MESSAGE 1
     {
         date = new Date();
         timestamp = String.valueOf(date.getTime());
         message = new Message(clientID, tgsID, timestamp);
         System.out.println("	******MESSAGE 1 SENT**********\n");
-        message = kdc.as.handleMessage(message);//GET MESSAGE 2;
-        if (message.error)
-            setVisible(true);
+        processing.processMed();
+        message = kdc.as.handleMessage(message);//get message 2;
+        if (message.error)     //error is set if clientID or tgsID are rejected
+            setVisible(true);  //bring window back for another attempt
         else
-            attemptDecryption(kdc, password+padding);
+            attemptDecryption(kdc, password+padding); // try to get ticket
 
     }
 
+    //same as above but message 3 but with a call to createAuthenticator()
     public void ticketGrantingServiceExchangeInit(Kerberos kdc) throws Exception {
         message = new Message(gatewayID, ticket, createAuthenticator());
         System.out.println("	**********MESSAGE 3 SENT******\n");
+        processing.processMed();
         message = kdc.tgs.handleMessage(message); //Get message 4
         if (message.error)
             setVisible(true);
@@ -94,30 +97,31 @@ public class Login extends JFrame {
     public void attemptDecryption(Kerberos kdc, String key) throws Exception {
         if (kdc.as.attemptsRemaining) {
             System.out.println("    ******ATTEMPTING DECRYPTION******\n");
+            processing.processLong();               processing.processLong();
                 aes = new AESAlgorithm(key);
                 message = aes.decryptMessage(message);
-                if (!message.ticketRetrieval.equals("success")) {
-                    kdc.as.failureNotficiation("password");
-                    message.clear();
-                    message.displayContents();
-                    setVisible(true);
-                    ticketRetrievalOK = false;
+                if (!message.ticketRetrieval.equals("success")) { // key is user's password
+                    kdc.as.failureNotification("password");  // decryption failure = wrong password
+                    message.clear(); // reset message
+                    message.displayContents(); // check that message is reset
+                    setVisible(true); // bring login window back
                 } else {
                     System.out.println("    ******DECRYPTION SUCCESSFUL******\n");
+                    processing.processMed();
                     message.displayContents();
                     ticket = message.ticket;
                     sharedKey = message.key;
-                    ticketRetrievalOK = true;
                     switch(message.mNum)
                     {
                         case 2: ticketGrantingServiceExchangeInit(kdc); break;
-                        case 4: message.ticket.displayContents();
-                                    //**********GATEWAY ACCESS REQUEST
+                        case 4: message.ticket.displayContents(); break;
+                                    //this is next
                     }
                 }
         }
         }
 
+        //yes that is what it does
     private Authenticator createAuthenticator() throws Exception {
         timestamp = String.valueOf(date.getTime());
         AESAlgorithm authAES = new AESAlgorithm(sharedKey);

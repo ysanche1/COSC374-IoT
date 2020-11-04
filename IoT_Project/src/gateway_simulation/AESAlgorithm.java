@@ -5,40 +5,35 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-//Initialized with a string which is converted into bytes and used to generate the secret key
-
+// Initialized with a string which is converted into bytes and used to generate the secret key
 public class AESAlgorithm {
     private static final String ALGO = "AES";
     private byte[] keyValue1;  //secret key
-    private String keyValue2;  //key for encrypting tickets and authnenticators
+    private String keyValue2;  //key for encrypting tickets and authenticators
     private String authKeyValue;
 
-    public AESAlgorithm(String key) {
+    public AESAlgorithm(String key) { //For client and ticket decryption
         keyValue1 = key.getBytes();
-    } //For client and ticket decryption
+    }
 
     public AESAlgorithm(String key, String authOrTicketKey) { //Serverside encryption
         keyValue1 = key.getBytes();
-        keyValue2 = authOrTicketKey;
+        keyValue2 = authOrTicketKey; //This is used to generate a real key later
     }
 
-
+    // Encrypts contents of a message and creates a new AESAlgorithm for the function below
     public void encryptMessage(Message m) throws Exception {
         AESAlgorithm aesForTicket = new AESAlgorithm(keyValue2);
         m.ticket = aesForTicket.encryptTicket(m.ticket);    //send ticket to ticket encryption method
 
-
-                m.key = encrypt(m.key);
-                m.serverID = encrypt(m.serverID);
-                m.timestamp = encrypt(m.timestamp);  //encrypt the relevant variables
-                if(m.mNum == 2)m.lifetime = encrypt(m.lifetime);
-                m.ticketRetrieval = encrypt(m.ticketRetrieval);
-
-
-
+        m.key = encrypt(m.key);
+        m.serverID = encrypt(m.serverID);
+        m.timestamp = encrypt(m.timestamp);
+        if(m.mNum == 2)m.lifetime = encrypt(m.lifetime);
+        m.ticketRetrieval = encrypt(m.ticketRetrieval);
     }
 
-    //Both tickets have the same structure so no switch statement here
+    // this one
     private Ticket encryptTicket(Ticket t) throws Exception {
         t.key = encrypt(t.key);
         t.clientID = encrypt(t.clientID);
@@ -50,6 +45,7 @@ public class AESAlgorithm {
         return t;
     }
 
+    // encryption method called for individual elements
     public String encrypt(String Data) throws Exception {
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
@@ -58,7 +54,7 @@ public class AESAlgorithm {
         String encodedString = Base64.getEncoder().encodeToString(encVal);
         return encodedString;
     }
-
+    // decryption method
     public String decrypt(String encryptedData) throws Exception {
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
@@ -69,12 +65,13 @@ public class AESAlgorithm {
         return decryptedString;
     }
 
-    //key is generated from object parameter
+    // key is generated from object parameter
     private Key generateKey() throws Exception {
         Key key = new SecretKeySpec(keyValue1, ALGO);
         return key;
     }
 
+    //Decrypts message components based on message number variable
     public Message decryptMessage(Message m) throws Exception {
 
         switch (m.mNum) {
@@ -97,6 +94,7 @@ public class AESAlgorithm {
         return m;
     }
 
+    // yup
     public Ticket decryptTicket(Ticket t) throws Exception {
         t.key = decrypt(t.key);
         t.clientID = decrypt(t.clientID);
@@ -108,6 +106,7 @@ public class AESAlgorithm {
         return t;
     }
 
+    // uh-huh
     public void encryptAuthenticator(Authenticator a) throws Exception {
 
             a.clientID = encrypt(a.clientID);
@@ -115,6 +114,7 @@ public class AESAlgorithm {
             a.timestamp = encrypt(a.timestamp);
     }
 
+    // yeah
     private Authenticator decryptAuthenticator(Authenticator a) throws Exception {
         a.clientID = decrypt(a.clientID);
         a.clientAddress = decrypt(a.clientAddress);

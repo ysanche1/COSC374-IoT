@@ -16,12 +16,12 @@ public class Ticket {
         this.serverID = serverID; this.timestamp = timestamp; this.lifetime = lifetime;
     }
     public void displayContents(){
-        System.out.println("Ticket contents :");              processing.processFast();
-        System.out.print("  Key = "+key+" ||");              processing.processFast();
-        System.out.print(" clientID = "+clientID+" ||");    processing.processFast();
-        System.out.print(" clientAD = "+clientAD+" ||\n");   processing.processFast();
-        System.out.print("  serverID = "+serverID+" ||");   processing.processFast();
-        System.out.print(" timestamp = "+timestamp+" ||");   processing.processFast();
-        System.out.print(" lifetime = "+lifetime+" ||\n\n");processing.processFast();
+        System.out.println("Ticket contents :");              processing.processMed();
+        System.out.print("  Key = "+key+" ||");             processing.processMed();
+        System.out.print(" clientID = "+clientID+" ||");   processing.processMed();
+        System.out.print(" clientAD = "+clientAD+" ||\n");   processing.processMed();
+        System.out.print("  serverID = "+serverID+" ||");   processing.processMed();
+        System.out.print(" timestamp = "+timestamp+" ||");   processing.processMed();
+        System.out.print(" lifetime = "+lifetime+" ||\n\n");processing.processMed();
     }
 }
