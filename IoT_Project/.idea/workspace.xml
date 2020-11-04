@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="">
+    <list default="true" id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/COSC374-IoT.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IoT_Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.idea/aws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/AES_APP.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/bin/AESAlgorithm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/bin/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/bin/Main$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/bin/Main$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/src/AESAlgorithm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AES_APP/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.classpath" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/aws.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.project" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/IoT_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/IoT_Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/AESAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/AESAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/AuthServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/AuthServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Authenticator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Kerberos.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Kerberos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Login.form" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Login.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/TGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/TGS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/processing.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Project/src/gateway_simulation/processing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,19 +63,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1jbh4bPTNxkel9PRzvXtkmRU9u7" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1jnRE9KMqyqbAHBz01HRXEu6eIs" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AES_APP" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="project.propGUI" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Q:\COSC374_IOT_PROJECT\src\gateway_simulation" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -74,124 +103,80 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1150eea7-6203-4b2a-aeae-57f926b97d69" name="Default Changelist" comment="" />
-      <created>1604078508699</created>
+      <changelist id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="" />
+      <created>1604437756436</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1604078508699</updated>
+      <updated>1604437756436</updated>
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
   <component name="WindowStateProjectService">
-    <state x="605" y="172" key="#Project_Structure" timestamp="1604078521341">
+    <state x="652" y="173" key="#Project_Structure" timestamp="1604437865358">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="605" y="172" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1604078521341" />
-    <state x="926" y="268" key="#com.intellij.ide.util.MemberChooser" timestamp="1604095279191">
+    <state x="652" y="173" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1604437865358" />
+    <state x="1262" y="331" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1604438391889">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="926" y="268" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1604095279191" />
-    <state x="891" y="408" width="433" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1604078815151">
+    <state x="1262" y="331" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604438391889" />
+    <state width="439" height="466" key="DebuggerActiveHint" timestamp="1604441809678">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="891" y="408" width="433" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080@0.0.1920.1080" timestamp="1604078815151" />
-    <state x="743" y="377" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1604278461295">
+    <state width="439" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1604441809678" />
+    <state x="1312" y="339" key="FileChooserDialogImpl" timestamp="1604437880276">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="743" y="377" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604278461295" />
-    <state x="618" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604378303381">
+    <state x="1312" y="339" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604437880276" />
+    <state width="1344" height="245" key="GridCell.Tab.0.bottom" timestamp="1604449523969">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="618" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604378303381" />
-    <state x="966" y="398" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1604207318814">
+    <state width="1344" height="245" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604449523969" />
+    <state width="1344" height="245" key="GridCell.Tab.0.center" timestamp="1604449523969">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="966" y="398" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604207318814" />
-    <state width="439" height="466" key="DebuggerActiveHint" timestamp="1604426099325">
+    <state width="1344" height="245" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604449523969" />
+    <state width="1344" height="245" key="GridCell.Tab.0.left" timestamp="1604449523969">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="439" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1604426099325" />
-    <state x="835" y="303" key="FileChooserDialogImpl" timestamp="1604430365502">
+    <state width="1344" height="245" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604449523969" />
+    <state width="1344" height="245" key="GridCell.Tab.0.right" timestamp="1604449523969">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="835" y="303" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604430365502" />
-    <state width="1877" height="552" key="GridCell.Tab.0.bottom" timestamp="1604429243056">
+    <state width="1344" height="245" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604449523969" />
+    <state width="1344" height="304" key="GridCell.Tab.1.bottom" timestamp="1604442061971">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.0.center" timestamp="1604429243056">
+    <state width="1344" height="304" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604442061971" />
+    <state width="1344" height="304" key="GridCell.Tab.1.center" timestamp="1604442061971">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.0.left" timestamp="1604429243056">
+    <state width="1344" height="304" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604442061971" />
+    <state width="1344" height="304" key="GridCell.Tab.1.left" timestamp="1604442061971">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.0.right" timestamp="1604429243056">
+    <state width="1344" height="304" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604442061971" />
+    <state width="1344" height="304" key="GridCell.Tab.1.right" timestamp="1604442061971">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="552" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.1.bottom" timestamp="1604429243056">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.1.center" timestamp="1604429243056">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.1.left" timestamp="1604429243056">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state width="1877" height="552" key="GridCell.Tab.1.right" timestamp="1604429243056">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="552" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604429243056" />
-    <state x="635" y="171" key="SettingsEditor" timestamp="1604425569200">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="635" y="171" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1604425569200" />
-    <state x="730" y="420" key="com.intellij.uiDesigner.propertyInspector.editors.string.StringEditorDialog" timestamp="1604419278753">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="730" y="420" key="com.intellij.uiDesigner.propertyInspector.editors.string.StringEditorDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604419278753" />
-    <state x="611" y="355" width="909" height="629" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1604094657406">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="611" y="355" width="909" height="629" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1604094657406" />
-    <state x="685" y="321" key="new project wizard" timestamp="1604429709469">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="685" y="321" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1604429709469" />
-    <state x="832" y="272" key="run.anything.popup" timestamp="1604293013741">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="832" y="272" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1604293013741" />
+    <state width="1344" height="304" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604442061971" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gateway_simulation/TGS.java</url>
-          <line>37</line>
-          <properties class="gateway_simulation.TGS" method="createReply">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="60" />
+          <line>23</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((byte[])((AESAlgorithm)this).keyValue1)[0]" language="JAVA" custom="byte[],gateway_simulation.AESAlgorithm" />
+        <watch expression="((byte[])((AESAlgorithm)this).keyValue1)[4]" custom="byte[],gateway_simulation.AESAlgorithm" />
+        <watch expression="((byte[])((AESAlgorithm)this).keyValue1)[3]" custom="byte[],gateway_simulation.AESAlgorithm" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
