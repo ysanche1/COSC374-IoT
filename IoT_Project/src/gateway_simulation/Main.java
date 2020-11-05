@@ -7,7 +7,9 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) {
-        Kerberos kdc = new Kerberos();
+   // Gateway gateway = new Gateway(); create thread here?
+
+       Kerberos kdc = new Kerberos();
         new Login("Login", kdc);
     }
 }

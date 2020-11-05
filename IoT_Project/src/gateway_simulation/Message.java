@@ -11,7 +11,7 @@ public class Message {
     Authenticator auth;
     String serverID;
     String key;
-    String ticketRetrieval = "success"; //checked after decryption of ticket-bearing message
+    boolean ticketRetrieval = true; //checked after decryption of ticket-bearing message
     boolean containsTicket; //for displayContent()
     boolean containsAuth; //^
     boolean error = false; //set to true if bad info is given
