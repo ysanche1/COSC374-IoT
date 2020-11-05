@@ -10,9 +10,10 @@ public class AESAlgorithm {
     private static final String ALGO = "AES";
     private byte[] keyValue1;  //secret key
     private String keyValue2;  //key for encrypting tickets and authenticators
-    private String authKeyValue;
+    private String keyValue1String;
 
     public AESAlgorithm(String key) { //For client and ticket decryption
+        keyValue1String = key;
         keyValue1 = key.getBytes();
     }
 
@@ -30,7 +31,9 @@ public class AESAlgorithm {
         m.serverID = encrypt(m.serverID);
         m.timestamp = encrypt(m.timestamp);
         if(m.mNum == 2)m.lifetime = encrypt(m.lifetime);
-        m.ticketRetrieval = encrypt(m.ticketRetrieval);
+       // m.ticketRetrieval = encrypt(m.ticketRetrieval);
+
+        System.out.println("Encrypted with key = "+keyValue1String+"\n");
     }
 
     // this one
@@ -80,7 +83,8 @@ public class AESAlgorithm {
                     m.key = decrypt(m.key);
                     m.serverID = decrypt(m.serverID);
                     m.timestamp = decrypt(m.timestamp);
-                    m.ticketRetrieval = decrypt(m.ticketRetrieval);break;
+                    //m.ticketRetrieval = decrypt(m.ticketRetrieval);
+                    break;
             case 3:
                 m.ticket = decryptTicket(m.ticket);
                 AESAlgorithm aesAT = new AESAlgorithm(m.ticket.key);
@@ -89,7 +93,8 @@ public class AESAlgorithm {
                 m.key = decrypt(m.key);
                 m.serverID = decrypt(m.serverID);
                 m.timestamp = decrypt(m.timestamp);
-                m.ticketRetrieval = decrypt(m.ticketRetrieval);break;
+              //  m.ticketRetrieval = decrypt(m.ticketRetrieval);
+                break;
         }
         return m;
     }
@@ -108,7 +113,6 @@ public class AESAlgorithm {
 
     // uh-huh
     public void encryptAuthenticator(Authenticator a) throws Exception {
-
             a.clientID = encrypt(a.clientID);
             a.clientAddress = encrypt(a.clientAddress);
             a.timestamp = encrypt(a.timestamp);

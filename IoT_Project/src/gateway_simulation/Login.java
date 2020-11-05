@@ -20,7 +20,6 @@ public class Login extends JFrame {
     AESAlgorithm aes;
     String clientID;
     String password;
-    String padding = "12345678";
     String sharedKey;
     String timestamp;
     Date date;
@@ -28,6 +27,7 @@ public class Login extends JFrame {
     String gatewayID = "gateway374";
     Message message;
     Ticket ticket;
+    boolean allSuccess;
 
     public Login(String name, Kerberos kdc) {
         setTitle(name);
@@ -52,16 +52,13 @@ public class Login extends JFrame {
                 setVisible(false);
                 clientIdField.setText("");
                 passwordField.setText("");
+
                 try {
                     authorizationExchangeInit(kdc); //begin message 1
-                } catch (Exception interruptedException) {
-                    interruptedException.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
 
-
-                {
-
-                }
             }
         });
     }
@@ -77,8 +74,14 @@ public class Login extends JFrame {
         message = kdc.as.handleMessage(message);//get message 2;
         if (message.error)     //error is set if clientID or tgsID are rejected
             setVisible(true);  //bring window back for another attempt
-        else
-            attemptDecryption(kdc, password+padding); // try to get ticket
+        else{
+            int pl = password.length();  //key needs to be 16 bytes, 1234567890 repeating as padding
+            int j = 1;
+            for(int i = 1; i<=16-pl; i++ ){
+                if(j == 10)
+                    j = 0;
+                password+=j; j++;}
+            attemptDecryption(kdc, password);} // try to get ticket
 
     }
 
@@ -94,32 +97,44 @@ public class Login extends JFrame {
         attemptDecryption(kdc, sharedKey);
     }
 
-    public void attemptDecryption(Kerberos kdc, String key) throws Exception {
+    public void attemptDecryption(Kerberos kdc, String key){
         if (kdc.as.attemptsRemaining) {
             System.out.println("    ******ATTEMPTING DECRYPTION******\n");
-            processing.processLong();               processing.processLong();
-                aes = new AESAlgorithm(key);
+            processing.processLong();
+            processing.processLong();
+            aes = new AESAlgorithm(key);
+            try {
                 message = aes.decryptMessage(message);
-                if (!message.ticketRetrieval.equals("success")) { // key is user's password
-                    kdc.as.failureNotification("password");  // decryption failure = wrong password
-                    message.clear(); // reset message
-                    message.displayContents(); // check that message is reset
-                    setVisible(true); // bring login window back
-                } else {
-                    System.out.println("    ******DECRYPTION SUCCESSFUL******\n");
-                    processing.processMed();
-                    message.displayContents();
-                    ticket = message.ticket;
-                    sharedKey = message.key;
-                    switch(message.mNum)
-                    {
-                        case 2: ticketGrantingServiceExchangeInit(kdc); break;
-                        case 4: message.ticket.displayContents(); break;
-                                    //this is next
-                    }
+            } catch (Exception e) {
+                kdc.as.failureNotification("password");  // decryption failure = wrong password
+                message.clear(); // reset message
+                message.displayContents(); // check that message is reset
+                message.ticketRetrieval = false;
+                setVisible(true); // bring login window back
+            }
+            if (message.ticketRetrieval) {
+                System.out.println("    ******DECRYPTION SUCCESSFUL******\n");
+                processing.processMed();
+                message.displayContents();
+                ticket = message.ticket;
+                sharedKey = message.key;
+                switch (message.mNum) {
+                    case 2:
+                        try {
+                            ticketGrantingServiceExchangeInit(kdc);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 4:
+                        message.ticket.displayContents();
+                        allSuccess = true;
+                        break;
                 }
+            }
         }
-        }
+    }
+
 
         //yes that is what it does
     private Authenticator createAuthenticator() throws Exception {

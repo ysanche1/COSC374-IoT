@@ -80,7 +80,7 @@ public class AuthServer {
         }
 
     }
-
+    // one attempt, two attempts, etc..
     private String attemptsGrammar() {
         String s = "";
         if( attempts != 1)
