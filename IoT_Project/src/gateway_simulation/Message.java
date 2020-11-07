@@ -1,8 +1,13 @@
 package gateway_simulation;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.sql.Timestamp;
+import java.util.Observable;
 
-public class Message {
+public class Message{
+    protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
     String clientID;
     String timestamp;
@@ -18,7 +23,8 @@ public class Message {
 
     //sometimes you need one of these
     public Message(){
-
+        propertyChangeSupport = new PropertyChangeSupport(this);
+        mNum = 0;
     }
 
     public void displayContents()
@@ -41,7 +47,7 @@ public class Message {
 
     //called after failed authentication
     public void clear(){
-        mNum =-1;
+        mNum = 0;
         clientID = null;
         timestamp = null;
         lifetime = null;
@@ -56,7 +62,8 @@ public class Message {
     //lots of constructors for different messages
 
     //MESSAGE 1 Client to AS
-    public Message(String cID, String tgsID, String timestamp){
+    public void createMessage1(String cID, String tgsID, String timestamp, Message m){
+        Message blankMessage = m;
         mNum = 1;
         this.clientID = cID;
         this.serverID = tgsID;
@@ -67,7 +74,7 @@ public class Message {
     }
 
     //MESSAGE 2 AS to Client
-    public Message(String keyC_TGS, String tgsID, Ticket ticketTGS, String timestamp, String lifetime ){
+    public void createMessage2(String keyC_TGS, String tgsID, Ticket ticketTGS, String timestamp, String lifetime ){
         mNum = 2;
         this.key = keyC_TGS;
         this.serverID = tgsID;
@@ -80,7 +87,7 @@ public class Message {
     }
 
     //MESSAGE 3 Client to TGS
-    public Message(String gatewayID, Ticket t, Authenticator auth){
+    public void createMessage3(String gatewayID, Ticket t, Authenticator auth){
         mNum = 3;
         this.serverID = gatewayID;
         this.ticket = t;
@@ -91,7 +98,7 @@ public class Message {
     }
 
     //MESSAGE 4 TGS to Client
-    public Message(String keyC_V, String gatewayID, Ticket ticketGateway, String timestamp){
+    public void createMessage4(String keyC_V, String gatewayID, Ticket ticketGateway, String timestamp){
         mNum = 4;
         this.key = keyC_V;
         this.serverID = gatewayID;
@@ -100,10 +107,11 @@ public class Message {
         containsTicket = true;
         containsAuth = false;
         displayContents();
+        propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
     //MESSAGE 5 Client to Gateway
-    public Message(Ticket ticketGateway, Authenticator auth){
+    public void createMessage5(Ticket ticketGateway, Authenticator auth){
         mNum = 5;
         this.ticket = ticketGateway;
         this.auth = auth;
@@ -111,4 +119,15 @@ public class Message {
         containsAuth = true;
         displayContents();
     }
+
+   /* public void newMessage(String clientID, String serverID, String timestamp, Message m) {
+
+
+            case 2:        propertyChangeSupport.firePropertyChange("M2",oldmNum, mNum); break;
+            case 3:        propertyChangeSupport.firePropertyChange("M3",oldmNum, mNum); break;
+            case 4:        propertyChangeSupport.firePropertyChange("M4",oldmNum, mNum); break;
+            case 5:        propertyChangeSupport.firePropertyChange("M5",oldmNum, mNum); break;
+        }
+    }*/
+
 }
