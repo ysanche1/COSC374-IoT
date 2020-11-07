@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-public class Login extends JFrame {
-
+public class Login extends JFrame implements Runnable{
     private JPanel mainPanel;
     private JTextField clientIdField;
     private JPasswordField passwordField;
@@ -27,10 +26,11 @@ public class Login extends JFrame {
     String gatewayID = "gateway374";
     Message message;
     Ticket ticket;
-    boolean allSuccess;
+    Boolean ticketRetrieved = false;
 
-    public Login(String name, Kerberos kdc) {
-        setTitle(name);
+    public Login(Kerberos kdc) {
+     //   System.out.println("MESSAGE UNIQUE HASH = "+ System.identityHashCode(m)+"\n");
+        setTitle("Login");
         setContentPane(mainPanel);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,70 +43,76 @@ public class Login extends JFrame {
         setVisible(true);
         loginButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public synchronized void actionPerformed(ActionEvent e) {
+                Message m = new Message();
                 //get text in fields and close the window
                 System.out.println("    ******LOGIN BUTTON PRESSED******\n");
-                processing.processMed();
+              //  System.out.println("KDC UNIQUE HASH = " + System.identityHashCode(m) + "\n");
+              //  System.out.println("MESSAGE UNIQUE HASH getSGT = "+ System.identityHashCode(m)+"\n");
                 clientID = clientIdField.getText();
                 password = String.copyValueOf(passwordField.getPassword());
                 setVisible(false);
                 clientIdField.setText("");
                 passwordField.setText("");
-
+                processing.processMed();
                 try {
-                    authorizationExchangeInit(kdc); //begin message 1
+                    authorizationExchangeInit(kdc);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-
             }
         });
     }
 
     //send message 1 and be judged by Authorization Server
-    public void authorizationExchangeInit(Kerberos kdc) throws Exception        //MESSAGE 1
+    public synchronized void authorizationExchangeInit(Kerberos kdc) throws Exception        //MESSAGE 1
     {
+        message = new Message();
         date = new Date();
         timestamp = String.valueOf(date.getTime());
-        message = new Message(clientID, tgsID, timestamp);
+        message.createMessage1(clientID, tgsID, timestamp, message);
         System.out.println("	******MESSAGE 1 SENT**********\n");
         processing.processMed();
-        message = kdc.as.handleMessage(message);//get message 2;
+         kdc.as.handleMessage(message);//get message 2;
         if (message.error)     //error is set if clientID or tgsID are rejected
             setVisible(true);  //bring window back for another attempt
-        else{
+        else {
             int pl = password.length();  //key needs to be 16 bytes, 1234567890 repeating as padding
             int j = 1;
-            for(int i = 1; i<=16-pl; i++ ){
-                if(j == 10)
+            for (int i = 1; i <= 16 - pl; i++) {
+                if (j == 10)
                     j = 0;
-                password+=j; j++;}
-            attemptDecryption(kdc, password);} // try to get ticket
+                password += j;
+                j++;
+            }
+            attemptDecryption(kdc, password, message);} // try to get ticket
+        }
 
-    }
+
+
 
     //same as above but message 3 but with a call to createAuthenticator()
-    public void ticketGrantingServiceExchangeInit(Kerberos kdc) throws Exception {
-        message = new Message(gatewayID, ticket, createAuthenticator());
+    public synchronized void ticketGrantingServiceExchangeInit(Kerberos kdc, Message message) throws Exception {
+        message.createMessage3(gatewayID, ticket, createAuthenticator());
         System.out.println("	**********MESSAGE 3 SENT******\n");
         processing.processMed();
-        message = kdc.tgs.handleMessage(message); //Get message 4
+        kdc.tgs.handleMessage(message); //Get message 4
         if (message.error)
             setVisible(true);
         else
-        attemptDecryption(kdc, sharedKey);
+        attemptDecryption(kdc, sharedKey, message);
     }
 
-    public void attemptDecryption(Kerberos kdc, String key){
+    public synchronized void attemptDecryption(Kerberos kdc, String key, Message message) throws Exception {
         if (kdc.as.attemptsRemaining) {
             System.out.println("    ******ATTEMPTING DECRYPTION******\n");
             processing.processLong();
             processing.processLong();
             aes = new AESAlgorithm(key);
             try {
-                message = aes.decryptMessage(message);
+                aes.decryptMessage(message);
             } catch (Exception e) {
-                kdc.as.failureNotification("password");  // decryption failure = wrong password
+                kdc.as.failureNotification("password", message);  // decryption failure = wrong password
                 message.clear(); // reset message
                 message.displayContents(); // check that message is reset
                 message.ticketRetrieval = false;
@@ -121,14 +127,16 @@ public class Login extends JFrame {
                 switch (message.mNum) {
                     case 2:
                         try {
-                            ticketGrantingServiceExchangeInit(kdc);
+                            ticketGrantingServiceExchangeInit(kdc, message);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         break;
                     case 4:
                         message.ticket.displayContents();
-                        allSuccess = true;
+                        message.createMessage5(message.ticket, createAuthenticator());
+                        ticketRetrieved = true;
+
                         break;
                 }
             }
@@ -136,7 +144,6 @@ public class Login extends JFrame {
     }
 
 
-        //yes that is what it does
     private Authenticator createAuthenticator() throws Exception {
         timestamp = String.valueOf(date.getTime());
         AESAlgorithm authAES = new AESAlgorithm(sharedKey);
@@ -145,7 +152,12 @@ public class Login extends JFrame {
         return auth;
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    @Override
+    public void run() {
+        if(ticketRetrieved)
+        {
+
+        }
     }
 }
+
