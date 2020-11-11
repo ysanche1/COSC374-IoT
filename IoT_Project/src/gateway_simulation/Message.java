@@ -3,10 +3,12 @@ package gateway_simulation;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.security.PublicKey;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Observable;
 
-public class Message{
+public class Message {
     protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
     String clientID;
@@ -20,33 +22,48 @@ public class Message{
     boolean containsTicket; //for displayContent()
     boolean containsAuth; //^
     boolean error = false; //set to true if bad info is given
+    PublicKey pk;
+    String command;
+    String custom;
+    String response;
+    public Message(){}
 
-    //sometimes you need one of these
-    public Message(){
-        propertyChangeSupport = new PropertyChangeSupport(this);
-        mNum = 0;
+    public Message(String response) {
+        this.response = response;
     }
 
-    public void displayContents()
-    {
-        System.out.println("Contents of Message "+mNum+":");    processing.processMed();
-        System.out.print("  Key = "+ key +" ||");               processing.processMed();
-        System.out.print(" Client ID = "+ clientID +" ||");               processing.processMed();
-        System.out.print(" Server ID = "+serverID+" ||\n");               processing.processMed();
-        System.out.print("  Timestamp = "+timestamp+" ||");               processing.processMed();
-        System.out.print(" Lifetime = "+lifetime+" ||\n");               processing.processMed();
-        if(!containsTicket)
+    public Message(String command, String custom) {
+        mNum = 7;
+        this.command = command;
+        this.custom = custom;
+    }
+
+    public void displayContents() {
+        System.out.println("Contents of Message " + mNum + ":");
+        processing.processMed();
+        System.out.print("  Key = " + key + " ||");
+        processing.processMed();
+        System.out.print(" Client ID = " + clientID + " ||");
+        processing.processMed();
+        System.out.print(" Server ID = " + serverID + " ||\n");
+        processing.processMed();
+        System.out.print("  Timestamp = " + timestamp + " ||");
+        processing.processMed();
+        System.out.print(" Lifetime = " + lifetime + " ||\n");
+        processing.processMed();
+        if (!containsTicket)
             System.out.print("      No Ticket ");
-        if(!containsAuth){
+        if (!containsAuth) {
             System.out.print("    No Authenticator");
-            System.out.println("\n");}
-            if(containsTicket && containsAuth)
-                System.out.print("\n");
+            System.out.println("\n");
+        }
+        if (containsTicket && containsAuth)
+            System.out.print("\n");
         processing.processMed();
     }
 
     //called after failed authentication
-    public void clear(){
+    public void clear() {
         mNum = 0;
         clientID = null;
         timestamp = null;
@@ -62,63 +79,89 @@ public class Message{
     //lots of constructors for different messages
 
     //MESSAGE 1 Client to AS
-    public void createMessage1(String cID, String tgsID, String timestamp, Message m){
-        Message blankMessage = m;
-        mNum = 1;
-        this.clientID = cID;
-        this.serverID = tgsID;
-        this.timestamp = timestamp;
-        containsTicket = false;
-        containsAuth = false;
-        displayContents();
+
+    private void createtimeStamps() {
+        timestamp = String.valueOf(System.currentTimeMillis());
+        lifetime = String.valueOf(System.currentTimeMillis() + 30000);
+    }
+
+    public Message createMessage1(String cID, String tgsID) {
+        Message m = new Message();
+        m.mNum = 1;
+        m.clientID = cID;
+        m.serverID = tgsID;
+        m.containsTicket = false;
+        m.containsAuth = false;
+        m.createtimeStamps();
+        m.displayContents();
+        return m;
     }
 
     //MESSAGE 2 AS to Client
-    public void createMessage2(String keyC_TGS, String tgsID, Ticket ticketTGS, String timestamp, String lifetime ){
-        mNum = 2;
-        this.key = keyC_TGS;
-        this.serverID = tgsID;
-        this.ticket = ticketTGS;
-        this.timestamp = timestamp;
-        this.lifetime = lifetime;
-        containsTicket = true;
-        containsAuth = false;
-        displayContents();
+    public Message createMessage2(String keyC_TGS, String tgsID, Ticket ticketTGS) {
+        Message m = new Message();
+        m.clear();
+        m.mNum = 2;
+        m.key = keyC_TGS;
+        m.serverID = tgsID;
+        m.ticket = ticketTGS;
+        m.containsTicket = true;
+        m.containsAuth = false;
+        m.createtimeStamps();
+        m.displayContents();
+        return m;
     }
 
     //MESSAGE 3 Client to TGS
-    public void createMessage3(String gatewayID, Ticket t, Authenticator auth){
-        mNum = 3;
-        this.serverID = gatewayID;
-        this.ticket = t;
-        this.auth = auth;
-        containsAuth = true;
-        containsTicket = true;
-        displayContents();
+    public Message createMessage3(String gatewayID, Ticket t, Authenticator auth) {
+        Message m = new Message();
+        m.mNum = 3;
+        m.serverID = gatewayID;
+        m.ticket = t;
+        m.auth = auth;
+        m.containsAuth = true;
+        m.containsTicket = true;
+        m.createtimeStamps();
+        m.displayContents();
+        return m
+                ;
     }
 
     //MESSAGE 4 TGS to Client
-    public void createMessage4(String keyC_V, String gatewayID, Ticket ticketGateway, String timestamp){
-        mNum = 4;
-        this.key = keyC_V;
-        this.serverID = gatewayID;
-        this.ticket = ticketGateway;
-        this.timestamp = timestamp;
-        containsTicket = true;
-        containsAuth = false;
-        displayContents();
-        propertyChangeSupport = new PropertyChangeSupport(this);
+    public Message createMessage4(String keyC_V, String gatewayID, Ticket ticketGateway) {
+        Message m = new Message();
+        m.mNum = 4;
+        m.key = keyC_V;
+        m.serverID = gatewayID;
+        m.ticket = ticketGateway;
+        m.containsTicket = true;
+        m.containsAuth = false;
+        m.createtimeStamps();
+        m.displayContents();
+        return m;
     }
 
     //MESSAGE 5 Client to Gateway
-    public void createMessage5(Ticket ticketGateway, Authenticator auth){
-        mNum = 5;
-        this.ticket = ticketGateway;
-        this.auth = auth;
-        containsTicket = true;
-        containsAuth = true;
-        displayContents();
+    public Message createMessage5(String key, Ticket ticketGateway, Authenticator auth) {
+        Message m = new Message();
+        m.mNum = 5;
+        m.key = key;
+        m.ticket = ticketGateway;
+        m.auth = auth;
+        m.containsTicket = true;
+        m.containsAuth = true;
+        m.displayContents();
+        return m;
     }
+
+ /*   public Message createPublicKeyMessage(PublicKey key) {
+        this.clear();
+        mNum = 6;
+        this.pk = key;
+        displayContents();
+        return
+    }*/
+}
 
    /* public void newMessage(String clientID, String serverID, String timestamp, Message m) {
 
@@ -130,4 +173,3 @@ public class Message{
         }
     }*/
 
-}

@@ -1,6 +1,5 @@
 package gateway_simulation;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Authenticator{
@@ -8,13 +7,13 @@ public class Authenticator{
     String clientID;
     String clientAddress;
     String timestamp;
-    Date date;
 
-    public Authenticator(String key, String cID, String cAD)
+    public Authenticator(String key, String cID, String cAD, String l)
     {
-        this.key = key; this.clientID = cID;
-        this.clientAddress = cAD;
-        date = new Date(); timestamp = String.valueOf(date.getTime());
+        timestamp = l;
+        this.key = key; clientID = cID;
+        clientAddress = cAD;
+
     }
 }
 

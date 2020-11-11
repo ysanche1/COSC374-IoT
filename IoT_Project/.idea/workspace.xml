@@ -19,7 +19,37 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="" />
+    <list default="true" id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AESAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AESAlgorithm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AuthServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AuthServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Authenticator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Authenticator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Gateway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Kerberos.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Kerberos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Login$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Login$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Message.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/TGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/TGS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Ticket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Ticket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AuthServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AuthServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Kerberos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Kerberos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Login.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Login.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/TGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/TGS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,18 +73,22 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="136" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Thermostat" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Java" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="gateway_simulation" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="Q:\COSC374_IOT_PROJECT\src\gateway_simulation" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="gateway_simulation" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="gateway_simulation" />
     </key>
   </component>
   <component name="RunManager">
@@ -63,7 +97,7 @@
       <module name="IoT_Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gateway_simulation.*" />
+          <option name="PATTERN" value="gateway_simulation.Message" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -105,58 +139,58 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="652" y="173" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1604437865358" />
-    <state x="1009" y="269" key="#com.intellij.ide.util.MemberChooser" timestamp="1604682930963">
+    <state x="1009" y="269" key="#com.intellij.ide.util.MemberChooser" timestamp="1604975825201">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1009" y="269" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1604682930963" />
-    <state x="422" y="214" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604545100332">
+    <state x="1009" y="269" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1604975825201" />
+    <state x="422" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604854211331">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="422" y="214" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604545100332" />
+    <state x="422" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604854211331" />
     <state x="1262" y="331" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1604545151261">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="1262" y="331" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604545151261" />
-    <state width="505" height="466" key="DebuggerActiveHint" timestamp="1604725454690">
+    <state width="505" height="466" key="DebuggerActiveHint" timestamp="1605073010707">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="505" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1604725454690" />
-    <state x="1312" y="339" key="FileChooserDialogImpl" timestamp="1604673968265">
+    <state width="505" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1605073010707" />
+    <state x="1312" y="339" key="FileChooserDialogImpl" timestamp="1605071106916">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1312" y="339" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1604673968265" />
-    <state width="1599" height="307" key="GridCell.Tab.0.bottom" timestamp="1604725843394">
+    <state x="1312" y="339" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1605071106916" />
+    <state width="1009" height="260" key="GridCell.Tab.0.bottom" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843394" />
-    <state width="1599" height="307" key="GridCell.Tab.0.center" timestamp="1604725843393">
+    <state width="1009" height="260" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.0.center" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843393" />
-    <state width="1599" height="307" key="GridCell.Tab.0.left" timestamp="1604725843393">
+    <state width="1009" height="260" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.0.left" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843393" />
-    <state width="1599" height="307" key="GridCell.Tab.0.right" timestamp="1604725843393">
+    <state width="1009" height="260" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.0.right" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843393" />
-    <state width="1599" height="307" key="GridCell.Tab.1.bottom" timestamp="1604725843394">
+    <state width="1009" height="260" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.1.bottom" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843394" />
-    <state width="1599" height="307" key="GridCell.Tab.1.center" timestamp="1604725843394">
+    <state width="1009" height="260" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.1.center" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843394" />
-    <state width="1599" height="307" key="GridCell.Tab.1.left" timestamp="1604725843394">
+    <state width="1009" height="260" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.1.left" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843394" />
-    <state width="1599" height="307" key="GridCell.Tab.1.right" timestamp="1604725843394">
+    <state width="1009" height="260" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
+    <state width="1009" height="260" key="GridCell.Tab.1.right" timestamp="1605073469066">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1599" height="307" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604725843394" />
+    <state width="1009" height="260" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605073469066" />
     <state x="563" y="237" key="SettingsEditor" timestamp="1604644058351">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -165,50 +199,31 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="644" y="407" key="com.intellij.uiDesigner.propertyInspector.editors.string.StringEditorDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604460692931" />
-    <state x="504" y="112" key="new project wizard" timestamp="1604630670578">
+    <state x="504" y="112" key="new project wizard" timestamp="1604801663892">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="504" y="112" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1604630670578" />
-    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1604645514023">
+    <state x="504" y="112" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1604801663892" />
+    <state x="971" y="297" key="refactoring.ChangeSignatureDialog" timestamp="1604975836410">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1604645514023" />
+    <state x="971" y="297" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1604975836410" />
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1605045016216">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1605045016216" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gateway_simulation/Kerberos.java</url>
-          <line>28</line>
+          <line>37</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gateway_simulation/AuthServer.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/gateway_simulation/Gateway.java</url>
-          <line>25</line>
-          <properties class="gateway_simulation.Gateway" method="checkMessage">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="119" />
+          <url>file://$PROJECT_DIR$/src/gateway_simulation/Thermostat.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="173" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

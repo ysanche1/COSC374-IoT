@@ -20,7 +20,7 @@
       </component>
       <component id="91059" class="javax.swing.JButton" binding="loginButton">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag top="10" left="130" bottom="13" right="200" weightx="10.0" weighty="0.0"/>
         </constraints>
         <properties>
@@ -70,21 +70,11 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Log in to Smart home"/>
+              <text value="Welcome to the Gateway"/>
             </properties>
           </component>
         </children>
       </grid>
-      <component id="31a0c" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <font size="10"/>
-          <text value="press enter"/>
-        </properties>
-      </component>
     </children>
   </grid>
 </form>
