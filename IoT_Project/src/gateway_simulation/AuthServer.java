@@ -22,7 +22,6 @@ public class AuthServer {
     public AuthServer() {
         System.out.println("AS Created");
         processing.processMed();
-        authMessage = new Message();
     }
 
     //deals with message 2 from client
@@ -30,48 +29,46 @@ public class AuthServer {
         if (attempts-- <= 0)  //check if user is locked out
         {
             attemptsRemaining = false;
-            failureNotification("locked");
+            failureNotification("locked", m);
         } else{
                 if (m.clientID.equals(this.clientID) == false) { //if not, check userid
                     processing.processMed();
-                    failureNotification("clientID");
+                    failureNotification("clientID", m);
                 } else{
                         System.out.print("	CLIENT ID OK	");                    processing.processMed();
                         if (m.serverID.equals(this.tgsID) == false) { //check the id of the target TGS
                             processing.processMed();
-                            failureNotification("tgsID");
+                            failureNotification("tgsID", m);
                         }
                         else System.out.print("	TGS ID OK	\n\n");                    processing.processMed();
-                        createReply();
+                        m =createReply(m);
                     }
             }
-        return authMessage;
+        return m;
     }
 
-    public Message createReply() throws Exception {
+    public Message createReply(Message m) throws Exception {
         System.out.println("	******PRE-AUTH PASSED*********\n");
         date = new Date();
-        timestamp = String.valueOf(date.getTime());
-        lifetime = String.valueOf(date.getTime() + 30000); // 30 second lifetime
-        ticketGrantingTicket = new Ticket(keyC_TGS, clientID, "CLIENT_ADDRESS", tgsID, timestamp, lifetime);
-        authMessage = new Message(keyC_TGS, tgsID, ticketGrantingTicket, timestamp, lifetime);
+        ticketGrantingTicket = new Ticket(keyC_TGS, clientID, "CLIENT_ADDRESS", tgsID);
+        m = m.createMessage2(keyC_TGS, tgsID, ticketGrantingTicket);
         aes = new AESAlgorithm(password + padding, keyAS_TGS);
         System.out.println("	*********ENCRYPTING MESSAGE 2*********\n");
         processing.processLong();        processing.processLong();
-        aes.encryptMessage(authMessage);
+        aes.encryptMessage(m);
         System.out.println("	*********MESSAGE 2 ENCRYPTED**********\n");
         processing.processMed();
-        authMessage.displayContents();
+        m.displayContents();
         processing.processMed();
 
         System.out.println("	*********MESSAGE 2 SENT**********\n");
         processing.processLong();
-        return authMessage;
+        return m;
     }
 
-    public void failureNotification(String error)
+    public void failureNotification(String error, Message m)
     {
-        authMessage.error = true;
+        m.error = true;
         switch(error){
             case "clientID": System.out.println("	BAD CLIENT ID - "+attempts+" attempt"+ attemptsGrammar()+ " remaining\n"); break;
             case "password": System.out.println("	INCORRECT PASSWORD - "+attempts+" attempt"+ attemptsGrammar()+ " remaining\n"); break;

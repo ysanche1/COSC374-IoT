@@ -20,13 +20,11 @@ public class Login extends JFrame implements Runnable{
     String clientID;
     String password;
     String sharedKey;
-    String timestamp;
-    Date date;
     String tgsID = "TGS374";
     String gatewayID = "gateway374";
-    Message message;
     Ticket ticket;
     Boolean ticketRetrieved = false;
+    Message message;
 
     public Login(Kerberos kdc) {
      //   System.out.println("MESSAGE UNIQUE HASH = "+ System.identityHashCode(m)+"\n");
@@ -44,7 +42,6 @@ public class Login extends JFrame implements Runnable{
         loginButton.addActionListener(new ActionListener() {
             @Override
             public synchronized void actionPerformed(ActionEvent e) {
-                Message m = new Message();
                 //get text in fields and close the window
                 System.out.println("    ******LOGIN BUTTON PRESSED******\n");
               //  System.out.println("KDC UNIQUE HASH = " + System.identityHashCode(m) + "\n");
@@ -68,12 +65,10 @@ public class Login extends JFrame implements Runnable{
     public synchronized void authorizationExchangeInit(Kerberos kdc) throws Exception        //MESSAGE 1
     {
         message = new Message();
-        date = new Date();
-        timestamp = String.valueOf(date.getTime());
-        message.createMessage1(clientID, tgsID, timestamp, message);
+        message = message.createMessage1(clientID, tgsID);
         System.out.println("	******MESSAGE 1 SENT**********\n");
         processing.processMed();
-         kdc.as.handleMessage(message);//get message 2;
+         message = kdc.as.handleMessage(message);//get message 2;
         if (message.error)     //error is set if clientID or tgsID are rejected
             setVisible(true);  //bring window back for another attempt
         else {
@@ -85,32 +80,32 @@ public class Login extends JFrame implements Runnable{
                 password += j;
                 j++;
             }
-            attemptDecryption(kdc, password, message);} // try to get ticket
+            attemptDecryption(kdc, password);} // try to get ticket
         }
 
 
 
 
     //same as above but message 3 but with a call to createAuthenticator()
-    public synchronized void ticketGrantingServiceExchangeInit(Kerberos kdc, Message message) throws Exception {
-        message.createMessage3(gatewayID, ticket, createAuthenticator());
+    public synchronized void ticketGrantingServiceExchangeInit(Kerberos kdc) throws Exception {
+        message = message.createMessage3(gatewayID, ticket, createAuthenticator());
         System.out.println("	**********MESSAGE 3 SENT******\n");
         processing.processMed();
-        kdc.tgs.handleMessage(message); //Get message 4
+        message = kdc.tgs.handleMessage(message); //Get message 4
         if (message.error)
             setVisible(true);
         else
-        attemptDecryption(kdc, sharedKey, message);
+        attemptDecryption(kdc, sharedKey);
     }
 
-    public synchronized void attemptDecryption(Kerberos kdc, String key, Message message) throws Exception {
+    public synchronized void attemptDecryption(Kerberos kdc, String key) throws Exception {
         if (kdc.as.attemptsRemaining) {
             System.out.println("    ******ATTEMPTING DECRYPTION******\n");
             processing.processLong();
             processing.processLong();
             aes = new AESAlgorithm(key);
             try {
-                aes.decryptMessage(message);
+               message = aes.decryptMessage(message);
             } catch (Exception e) {
                 kdc.as.failureNotification("password", message);  // decryption failure = wrong password
                 message.clear(); // reset message
@@ -127,16 +122,15 @@ public class Login extends JFrame implements Runnable{
                 switch (message.mNum) {
                     case 2:
                         try {
-                            ticketGrantingServiceExchangeInit(kdc, message);
+                            ticketGrantingServiceExchangeInit(kdc);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         break;
                     case 4:
                         message.ticket.displayContents();
-                        message.createMessage5(message.ticket, createAuthenticator());
+                        message = message.createMessage5(sharedKey, message.ticket, createAuthenticator());
                         ticketRetrieved = true;
-
                         break;
                 }
             }
@@ -145,19 +139,16 @@ public class Login extends JFrame implements Runnable{
 
 
     private Authenticator createAuthenticator() throws Exception {
-        timestamp = String.valueOf(date.getTime());
+        Authenticator auth = new Authenticator(sharedKey, clientID, "CLIENT_ADDRESS", String.valueOf(System.currentTimeMillis()));
         AESAlgorithm authAES = new AESAlgorithm(sharedKey);
-        Authenticator auth = new Authenticator(clientID, "CLIENT_ADDRESS", timestamp);
+        System.out.println("\nAUTH TIMESTAMP " +auth.timestamp+"\n");
         authAES.encryptAuthenticator(auth);
         return auth;
     }
 
     @Override
     public void run() {
-        if(ticketRetrieved)
-        {
 
-        }
     }
 }
 

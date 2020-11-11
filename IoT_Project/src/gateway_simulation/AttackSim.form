@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gateway_simulation.AttackSim">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="566" y="257" width="249" height="40"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="c8345" class="javax.swing.JButton" binding="replayAttackButton" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="Replay Attack"/>
+        </properties>
+      </component>
+      <component id="c32fc" class="javax.swing.JButton" binding="suspiciousActionButton" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="Suspicious Action"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

@@ -1,35 +1,32 @@
 package gateway_simulation;
 
-import javax.naming.event.NamingEvent;
-import javax.naming.event.NamingExceptionEvent;
-import javax.naming.event.ObjectChangeListener;
-import javax.swing.JFrame;
-import java.beans.PropertyChangeEvent;
-
 
 public class Main extends Thread {
-
-    public static void main(String[] args) throws InterruptedException {
+    public static Gateway gateway = new Gateway();
+    public static ThermostatControl tc;
+    public static void main(String[] args) throws Exception {
+        String sharedKey;
         System.out.print("Main Thread : ");
-        Kerberos kdc = new Kerberos();
+        Kerberos kdc = new Kerberos(gateway);
         App app = new App(kdc);
-        Gateway gateway = new Gateway();
         Thread appThread = new Thread(app);
         Thread loginThread = new Thread(app.login);
-        Thread gatewayThread = new Thread(gateway);
         loginThread.start();
         appThread.start();
-        gatewayThread.start();
 
-        while(!app.login.ticketRetrieved)
-        {
-            try {
-                gatewayThread.wait();
-            }catch (Exception e){}
+
+
+        System.out.println("Awaiting User Verification");
+        while (!app.login.ticketRetrieved) {
+            Thread.sleep(100);
         }
 
         Message sgt = app.sgtRetrieval();
-        gateway.checkMessage(sgt);
+        sharedKey = sgt.key;
+        gateway.receiveSGT(sgt);
+        sgt.ticket.displayContents();
+        tc = new ThermostatControl(sharedKey);
     }
+
 }
 

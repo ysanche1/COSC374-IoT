@@ -21,7 +21,7 @@ public class TGS {
     // get key shared with client out of the encrypted ticket within the authenticator
     public Message handleMessage(Message m) throws Exception {
         aes = new AESAlgorithm(keyAS_TGS);
-        message3 = aes.decryptMessage(m);
+        aes.decryptMessage(m);
         System.out.println("    ********TICKET RETRIEVED******\n");
         processing.processFast();
         processing.processMed();
@@ -35,30 +35,28 @@ public class TGS {
             processing.processMed();
             m.ticket.displayContents();
             keyC_TGS = m.ticket.key; //TGS and client now in possession of shared key
-            createReply(m);
+           m = createReply(m);
         }
-        return sgtMessage;
+        return m;
     }
 
     // construct and encrypt message 4
     private Message createReply(Message m) throws Exception {
-        date = new Date();
-        String timestamp = String.valueOf(date.getTime());
-        sgt = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID, //service granting ticket
-                timestamp, timestamp+3000);
-        sgt.displayContents();
-        sgtMessage = new Message(keyC_V, m.serverID, sgt, timestamp); // message 4
+        m.ticket = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID);
+        m.displayContents();
+        m=m.createMessage4(keyC_V, m.serverID, m.ticket); // message 4
+        System.out.println("\nTICKET TIMESTAMP " +m.ticket.timestamp+"\n");
         aes = new AESAlgorithm(keyC_TGS, keyTGS_V);
         System.out.println("	*********ENCRYPTING MESSAGE 4*********\n");
         processing.processLong();processing.processLong();
-        aes.encryptMessage(sgtMessage);
+        aes.encryptMessage(m);
         System.out.println("	*********MESSAGE 4 ENCRYPTED**********\n");
         processing.processMed();
-        sgtMessage.displayContents();
-        sgtMessage.ticket.displayContents();
+        m.displayContents();
+        m.ticket.displayContents();
         System.out.println("	******MESSAGE 4 SENT*************\n");
         processing.processMed();
-        return sgtMessage;
+        return m;
     }
 
 }
