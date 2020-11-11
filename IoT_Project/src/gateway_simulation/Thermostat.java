@@ -36,16 +36,17 @@ public class Thermostat implements Runnable {
     }
 
     private synchronized void setTemperature(int temp) throws InterruptedException {
-        System.out.println("Set temp Thread = : " + Thread.currentThread());
-        System.out.println(System.identityHashCode(this));
+      //  System.out.println("Set temp Thread = : " + Thread.currentThread());
+     //   System.out.println(System.identityHashCode(this));
+        System.out.println("Thermostat set to " + temp);
         targetTemp = temp;
         while (currentTemp != targetTemp) {
             Thread.sleep(500);
-            System.out.println("Current Temperature: " + currentTemp);
             if (currentTemp < targetTemp)
                 currentTemp++;
             else
                 currentTemp--;
+            System.out.println("Current Temperature: " + currentTemp);
         }
         justSet = true;
         targetTemp = 0;
@@ -81,7 +82,7 @@ public class Thermostat implements Runnable {
             if (t.tod >= endTime)
                 setup();
               if (justSet) {
-                  Thread.sleep(500);
+                  Thread.sleep(1000);
                   justSet = false;
               }
             if (uptime == 3) {
@@ -109,31 +110,26 @@ public class Thermostat implements Runnable {
 
 
     public Message receiveRequest(Message m) throws Exception {
-        System.out.println("Request at thermostat");
-
+        System.out.println("\nRequest at thermostat");
         RSAAlgorithm rsa = new RSAAlgorithm(privateKey);
         aesKey = rsa.decrypt(m.key);
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
         switch (m.command) {
-            case "INCREASE" -> {
+            case "INCREASE": {
                 //          System.out.println(Thread.currentThread());
-
                 setTemperature(currentTemp+1);
-                System.out.println("Thermostat set to " + currentTemp);
+                break;
             }
-            case "DECREASE" -> {
+            case "DECREASE":{
                 //           System.out.println(Thread.currentThread());
                 setTemperature(currentTemp-1);
-                System.out.println("Thermostat set to " + currentTemp);
+                break;
             }
-            case "CUSTOM" -> {
+            case "CUSTOM":
                 //           System.out.println(Thread.currentThread());
-                setTemperature(Integer.parseInt(m.custom));
-                System.out.println("Thermostat set to " + currentTemp);
-            }
+                setTemperature(Integer.parseInt(m.custom));break;
         }
-        rsa = new RSAAlgorithm(gwPublicKey);
         Message r = new Message("Thermostat set to " + currentTemp);
         r.response = aes.encrypt(r.response);
         return r;
@@ -152,7 +148,7 @@ public class Thermostat implements Runnable {
             } catch (InterruptedException e) {
                 System.out.println("Interrupted*******************************");
             }
-            System.out.println(Thread.currentThread());
+           // System.out.println(Thread.currentThread());
         }
 
     }

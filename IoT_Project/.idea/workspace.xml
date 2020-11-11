@@ -21,35 +21,15 @@
   <component name="ChangeListManager">
     <list default="true" id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AESKeyGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/AESKeyGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Gateway.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/RSAAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/RSAAlgorithm.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Thermostat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Thermostat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/ThermostatControl$Command.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/ThermostatControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/ThermostatControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Ticket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IoT_Project/gateway_simulation/Ticket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AuthServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AuthServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Gateway.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Gateway.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Kerberos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Kerberos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/LoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/LoginListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/RSAAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/RSAAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/RSAKeyPairGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/RSAKeyPairGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/SmartHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/SmartHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/TGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/TGS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Thermostat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Thermostat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/processing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/processing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,22 +144,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="1312" y="339" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1605071106916" />
-    <state width="1877" height="346" key="GridCell.Tab.0.bottom" timestamp="1605115501542">
+    <state width="1877" height="346" key="GridCell.Tab.0.bottom" timestamp="1605120697332">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="346" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605115501542" />
-    <state width="1877" height="346" key="GridCell.Tab.0.center" timestamp="1605115501542">
+    <state width="1877" height="346" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605120697332" />
+    <state width="1877" height="346" key="GridCell.Tab.0.center" timestamp="1605120697332">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="346" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605115501542" />
-    <state width="1877" height="346" key="GridCell.Tab.0.left" timestamp="1605115501542">
+    <state width="1877" height="346" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605120697332" />
+    <state width="1877" height="346" key="GridCell.Tab.0.left" timestamp="1605120697332">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="346" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605115501542" />
-    <state width="1877" height="346" key="GridCell.Tab.0.right" timestamp="1605115501542">
+    <state width="1877" height="346" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605120697332" />
+    <state width="1877" height="346" key="GridCell.Tab.0.right" timestamp="1605120697332">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="346" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605115501542" />
+    <state width="1877" height="346" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605120697332" />
     <state width="1877" height="259" key="GridCell.Tab.1.bottom" timestamp="1605114198469">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -222,7 +202,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gateway_simulation/Gateway.java</url>
-          <line>101</line>
+          <line>100</line>
           <option name="timeStamp" value="185" />
         </line-breakpoint>
       </breakpoints>

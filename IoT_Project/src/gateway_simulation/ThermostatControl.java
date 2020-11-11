@@ -18,10 +18,15 @@ public class ThermostatControl extends JFrame{
     private JTextField customTempField;
     private JButton customButton;
     private JLabel header;
+    private JLabel updateField;
+    private JPanel topPanel;
+    private JLabel tempDisplay;
+    private JPanel space;
+    private JPanel headerPanel;
+    private JPanel tempDisplayPanel;
     AESAlgorithm aes;
     String aesKey;
     String thermostatResponse;
-    enum Command {INCREASE, DECREASE, CUSTOM}
 
 public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
         this.aesKey = aesKey;
@@ -39,7 +44,7 @@ public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // put the window in a nice spot
     int frameX = (screenSize.width / 2) - (getWidth() / 2);             //
     int frameY = (screenSize.height / 2) - (getHeight());;                                 //
-    setLocation(frameX, frameY);                                        //
+    setLocation(frameX, frameY);
     setVisible(true);
     t.main();
     increaseButton.addActionListener(e -> {
@@ -63,12 +68,13 @@ public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
     });
 }
     private void newRequest(String command, String custom) throws Exception {
+        customTempField.setText("");
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
         m = Main.gateway.relayRequest(m, t);
         aesKey = aes.decrypt(m.key);
-        customTempField.setText(aes.decrypt(m.response));
+        updateField.setText(aes.decrypt(m.response));
     }
 }
 

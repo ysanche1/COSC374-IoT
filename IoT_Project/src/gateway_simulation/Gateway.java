@@ -3,7 +3,6 @@ package gateway_simulation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -106,11 +105,12 @@ public class Gateway extends JFrame implements Runnable {
         }
 
 
+
     private void generateNewAesKey() {
         String salt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
         sharedKey = "";
         for(int i = 0 ; i<16; i++)
             sharedKey += salt.charAt(new Random().nextInt(46));
-        System.out.println("NEW SHARED KEY: "+sharedKey);
+        System.out.println("NEW SHARED KEY: "+sharedKey+"\n");
     }
 }
