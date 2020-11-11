@@ -41,7 +41,13 @@ public class RSAAlgorithm {
     }
 
     public void decryptMessage(Message m) throws Exception {
-        m.custom = decrypt(m.custom);
-        m.command = decrypt(m.command);
+        switch (m.mNum) {
+            case 1:
+                m.custom = decrypt(m.custom);
+                m.command = decrypt(m.command);
+                break;
+            case 2:
+                m.response = decrypt(m.response);
+        }
     }
 }

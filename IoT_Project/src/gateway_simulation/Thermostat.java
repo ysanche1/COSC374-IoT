@@ -110,9 +110,10 @@ public class Thermostat implements Runnable {
 
     public Message receiveRequest(Message m) throws Exception {
         System.out.println("Request at thermostat");
-        AESAlgorithm aes = new AESAlgorithm(aesKey);
+
         RSAAlgorithm rsa = new RSAAlgorithm(privateKey);
-        rsa.decrypt(m.key);
+        aesKey = rsa.decrypt(m.key);
+        AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
         switch (m.command) {
             case "INCREASE" -> {
@@ -134,8 +135,7 @@ public class Thermostat implements Runnable {
         }
         rsa = new RSAAlgorithm(gwPublicKey);
         Message r = new Message("Thermostat set to " + currentTemp);
-        aes.encrypt(r.response);
-        r.key = rsa.encrypt(aesKey);
+        r.response = aes.encrypt(r.response);
         return r;
     }
 

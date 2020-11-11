@@ -3,9 +3,11 @@ package gateway_simulation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Random;
 
 public class Gateway extends JFrame implements Runnable {
     String gatewayID = "gateway374";
@@ -93,6 +95,8 @@ public class Gateway extends JFrame implements Runnable {
             //   System.out.println(messageOK);
             alert.setText("Request sent to thermostat");;
             m = t.receiveRequest(m);
+            generateNewAesKey();
+            m.key = aes.encrypt(sharedKey);
             alert.setText("confirmation received from thermostat");
             t.main();
             return m;
@@ -102,9 +106,11 @@ public class Gateway extends JFrame implements Runnable {
         }
 
 
-    public Message receiveResponse(Message r) {
-
-        return r;
-
+    private void generateNewAesKey() {
+        String salt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+        sharedKey = "";
+        for(int i = 0 ; i<16; i++)
+            sharedKey += salt.charAt(new Random().nextInt(46));
+        System.out.println("NEW SHARED KEY: "+sharedKey);
     }
 }

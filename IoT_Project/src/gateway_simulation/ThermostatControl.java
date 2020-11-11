@@ -26,7 +26,6 @@ public class ThermostatControl extends JFrame{
 public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
         this.aesKey = aesKey;
         t = new Thermostat();
-        t.receiveAesKey(aesKey);
         String increase = "INCREASE";
         String decrease = "DECREASE";
         String custom = "CUSTOM";
@@ -68,7 +67,8 @@ public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
         m = Main.gateway.relayRequest(m, t);
-        customTempField.setText(m.response);
+        aesKey = aes.decrypt(m.key);
+        customTempField.setText(aes.decrypt(m.response));
     }
 }
 
