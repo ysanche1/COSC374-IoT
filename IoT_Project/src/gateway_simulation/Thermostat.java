@@ -3,7 +3,6 @@ package gateway_simulation;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Thermostat implements Runnable {
@@ -12,8 +11,7 @@ public class Thermostat implements Runnable {
     int targetTemp;
     int currentTemp;
     int anchorTemp;
-    int tod ;
-    boolean idle = true;
+    int timeOfDay;
     double endTime = 0;
     boolean setUp;
     boolean justSet;
@@ -23,9 +21,9 @@ public class Thermostat implements Runnable {
     private String aesKey;
 
     public Thermostat() throws NoSuchAlgorithmException {
-        tod = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
-        if(tod<0){
-            tod = (int) (tod+8.64e+7);
+        timeOfDay = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
+        if(timeOfDay <0){
+            timeOfDay = (int) (timeOfDay +8.64e+7);
         }
         RSAKeyPairGenerator rsaKP = new RSAKeyPairGenerator();
         publicKey = rsaKP.getPublicKey();
@@ -35,6 +33,7 @@ public class Thermostat implements Runnable {
         //     System.out.println("THERMOSTAT I JUST MADE = "+System.identityHashCode(this));
     }
 
+    // Function that sets the temperature
     private synchronized void setTemperature(int temp) throws InterruptedException {
       //  System.out.println("Set temp Thread = : " + Thread.currentThread());
      //   System.out.println(System.identityHashCode(this));
@@ -48,38 +47,40 @@ public class Thermostat implements Runnable {
                 currentTemp--;
             System.out.println("Current Temperature: " + currentTemp);
         }
+        System.out.println("");
         justSet = true;
         targetTemp = 0;
     }
 
     private void setup() {
-        if (tod <= 2.16e+7) {
+        if (timeOfDay <= 2.16e+7) {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp - 10, avgTemp - 4);
             endTime = 2.16e+7;
-        } else if (tod > 2.16e+7 & tod <= 4.32e+7) {
+        } else if (timeOfDay > 2.16e+7 & timeOfDay <= 4.32e+7) {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp, avgTemp + 11);
             endTime = 4.32e+7;
-        } else if (tod > 4.32e+7 & tod <= 6.48e+7) {
+        } else if (timeOfDay > 4.32e+7 & timeOfDay <= 6.48e+7) {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp, avgTemp + 6);
             endTime = 6.48e+7;
-        } else if (tod > 6.48e+7) {
+        } else if (timeOfDay > 6.48e+7) {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp - 8, avgTemp + 1);
             endTime = 8.64e+7;
         }
     }
 
+    //Reports current temperature to console at regular intervals
     private synchronized void temperatureSimulation(Thermostat t) throws InterruptedException {
         if (!setUp) {
             setup();
             setUp = true;
         }
         int uptime = 0;
-        while (!Main.gateway.messageOK) {
+        while (!Main.gateway.activeRequest) {
            // System.out.println("\n" + Thread.currentThread());
           //  System.out.println(System.identityHashCode(this));
             anchorTemp = currentTemp;
             //     System.out.println("Simulation Thread = : "+Thread.currentThread());
-            if (t.tod >= endTime)
+            if (t.timeOfDay >= endTime)
                 setup();
               if (justSet) {
                   Thread.sleep(1000);
@@ -96,19 +97,20 @@ public class Thermostat implements Runnable {
                 uptime++;
             }
             Thread.sleep(500);
-            if (!Main.gateway.messageOK)
+            if (!Main.gateway.activeRequest)
                 Thread.sleep(500);
-            if (!Main.gateway.messageOK)
+            if (!Main.gateway.activeRequest)
                 Thread.sleep(500);
-            if (!Main.gateway.messageOK)
+            if (!Main.gateway.activeRequest)
                 Thread.sleep(500);
-            if (!Main.gateway.messageOK)
+            if (!Main.gateway.activeRequest)
                 Thread.sleep(500);
         }
     }
 
 
-
+    //Receives request AES encrypted message, decrypts AES key using RSA private key, decrypts message with recovered key,
+    //Sends response back to gateway encrypted with AES key
     public Message receiveRequest(Message m) throws Exception {
         System.out.println("\nRequest at thermostat");
         RSAAlgorithm rsa = new RSAAlgorithm(privateKey);
@@ -135,18 +137,19 @@ public class Thermostat implements Runnable {
         return r;
     }
 
+    //used to reset the thread after requests
     public void main(){
-        Main.gateway.messageOK = false;
+        Main.gateway.activeRequest = false;
         t = new Thread(this,"THERMOTHREAD");
         t.start();
     }
     public  void run() {
  //       System.out.println(Thread.currentThread());
-        while(!Main.gateway.messageOK) {
+        while(!Main.gateway.activeRequest) {
             try {
                 temperatureSimulation(this);
             } catch (InterruptedException e) {
-                System.out.println("Interrupted*******************************");
+                System.out.println("******************Interrupted*******************************");
             }
            // System.out.println(Thread.currentThread());
         }

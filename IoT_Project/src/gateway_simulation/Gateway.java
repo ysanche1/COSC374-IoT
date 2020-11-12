@@ -23,7 +23,7 @@ public class Gateway extends JFrame implements Runnable {
     PublicKey publicKey;
     PrivateKey privateKey;
     PublicKey thermPublicKey;
-    boolean messageOK;
+    boolean activeRequest;
 
     public Gateway() {
         try {
@@ -90,7 +90,7 @@ public class Gateway extends JFrame implements Runnable {
             m.key = rsa.encrypt(sharedKey);
 
 
-            messageOK = true;
+            activeRequest = true;
             //   System.out.println(messageOK);
             alert.setText("Request sent to thermostat");;
             m = t.receiveRequest(m);
