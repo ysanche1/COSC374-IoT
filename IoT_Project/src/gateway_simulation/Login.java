@@ -129,7 +129,7 @@ public class Login extends JFrame implements Runnable{
                         break;
                     case 4:
                         message.ticket.displayContents();
-                        message = message.createMessage5(sharedKey, message.ticket, createAuthenticator());
+                        message = message.createMessage5(message.ticket, createAuthenticator());
                         ticketRetrieved = true;
                         break;
                 }
@@ -139,7 +139,7 @@ public class Login extends JFrame implements Runnable{
 
 
     private Authenticator createAuthenticator() throws Exception {
-        Authenticator auth = new Authenticator(sharedKey, clientID, "CLIENT_ADDRESS", String.valueOf(System.currentTimeMillis()));
+        Authenticator auth = new Authenticator(clientID, "CLIENT_ADDRESS", String.valueOf(System.currentTimeMillis()));
         AESAlgorithm authAES = new AESAlgorithm(sharedKey);
         System.out.println("\nAUTH TIMESTAMP " +auth.timestamp+"\n");
         authAES.encryptAuthenticator(auth);

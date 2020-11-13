@@ -4,7 +4,9 @@ package gateway_simulation;
 public class Main extends Thread {
     public static Gateway gateway = new Gateway();
     public static ThermostatControl tc;
+    public  static AttackSim atk;
     public static void main(String[] args) throws Exception {
+        Message serviceGrantingTicketMessage;
         String sharedKey;
         System.out.print("Main Thread : ");
         Kerberos kdc = new Kerberos(gateway);
@@ -22,8 +24,9 @@ public class Main extends Thread {
         }
 
         Message sgt = app.sgtRetrieval();
+        atk = new AttackSim(sgt);
         sharedKey = sgt.key;
-        gateway.receiveSGT(sgt);
+        sharedKey = gateway.receiveSGT(sgt);
         sgt.ticket.displayContents();
         tc = new ThermostatControl(sharedKey);
     }

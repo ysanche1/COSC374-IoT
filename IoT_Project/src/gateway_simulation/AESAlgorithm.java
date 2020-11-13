@@ -42,7 +42,7 @@ public class AESAlgorithm {
     }
 
     // ticket encryption method
-    private Ticket encryptTicket(Ticket t) throws Exception {
+    public Ticket encryptTicket(Ticket t) throws Exception {
         t.key = encrypt(t.key);
         t.clientID = encrypt(t.clientID);
         t.clientAD = encrypt(t.clientAD);
@@ -130,6 +130,7 @@ public class AESAlgorithm {
 
 
     public void decryptAuthenticator(Authenticator a) throws Exception {
+        System.out.println(a.clientID);
         a.clientID = decrypt(a.clientID);
         a.clientAddress = decrypt(a.clientAddress);
         a.timestamp = decrypt(a.timestamp);

@@ -21,10 +21,17 @@ public class Ticket {
         System.out.println("\nTICKET TIMESTAMP" +timestamp+"\n");
     }
 
+    public Ticket(Ticket ticket) {
+        key = ticket.key;
+        clientID = ticket.clientID;
+        clientAD = ticket.clientAD;
+        serverID = ticket.serverID;
+    }
+
     private void createTimeStamps()
     {
         timestamp = String.valueOf(System.currentTimeMillis());
-        lifetime = String.valueOf(System.currentTimeMillis() + 3000);
+        lifetime = String.valueOf(System.currentTimeMillis() + 2000);
     }
 
     public void displayContents(){

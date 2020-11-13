@@ -13,7 +13,7 @@ public class RSAAlgorithm {
     public RSAAlgorithm(PublicKey p) { //For client and ticket decryption
         pub = p;
     }
-    public RSAAlgorithm(PrivateKey p) { //For client and ticket decryption
+    public RSAAlgorithm(PrivateKey p) {
         priv = p;
     }
 
@@ -47,7 +47,7 @@ public class RSAAlgorithm {
                 m.command = decrypt(m.command);
                 break;
             case 2:
-                m.response = decrypt(m.response);
+                m.update = decrypt(m.update);
         }
     }
 }

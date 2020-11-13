@@ -25,17 +25,28 @@ public class Message {
     PublicKey pk;
     String command;
     String custom;
-    String response;
+    String update;
     public Message(){}
 
-    public Message(String response) {
-        this.response = response;
+    public Message(String update) {
+        this.update = update;
     }
 
     public Message(String command, String custom) {
         mNum = 7;
         this.command = command;
         this.custom = custom;
+    }
+
+    public Message(Message m) {
+        this.mNum = Integer.valueOf(m.mNum);
+        this.key = String.valueOf(m.key);
+        this.ticket = new Ticket(m.ticket);
+    }
+
+    public Message(boolean b) {
+        update = "Possible intrusion detected - device quarantined";
+        error = b;
     }
 
     public void displayContents() {
@@ -142,10 +153,9 @@ public class Message {
     }
 
     //MESSAGE 5 Client to Gateway
-    public Message createMessage5(String key, Ticket ticketGateway, Authenticator auth) {
+    public Message createMessage5(Ticket ticketGateway, Authenticator auth) {
         Message m = new Message();
         m.mNum = 5;
-        m.key = key;
         m.ticket = ticketGateway;
         m.auth = auth;
         m.containsTicket = true;
