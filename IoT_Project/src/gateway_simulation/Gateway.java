@@ -51,7 +51,6 @@ public class Gateway extends JFrame{
             m.ticket.displayContents();
             AESAlgorithm aes = new AESAlgorithm(keyTGS_V);
             aes.decryptMessage(m);
-            sharedKey = m.ticket.key;
             System.out.println("\nAUTH TIMESTAMP" +m.auth.timestamp+"\n");
             System.out.println("\nTICKET TIMESTAMP" +m.ticket.timestamp+"\n");
             if (Long.parseLong(m.ticket.lifetime) < System.currentTimeMillis()  //timestamp check
@@ -61,6 +60,7 @@ public class Gateway extends JFrame{
                 gw.setVisible(true);
             }
                 else{
+                    sharedKey = m.ticket.key;
                     gw.dispatchEvent(new WindowEvent(gw, WindowEvent.WINDOW_CLOSING));
                 }
         m.ticket = aes.encryptTicket(m.ticket);
@@ -79,7 +79,7 @@ public class Gateway extends JFrame{
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             pack();
             frameX = (screenSize.width / 2) - (getWidth() / 2);
-            frameY = (screenSize.height / 2) - (getHeight() * 7 / 2);
+            frameY = (screenSize.height / 2) - (getHeight() * 19/5);
             ;
             setLocation(frameX, frameY);
             setVisible(true);
@@ -96,14 +96,6 @@ public class Gateway extends JFrame{
             }
             return "OK";
         }
-
-        private void analyzeTraffic(String m){
-        checkThreatDB(m);
-
-        }
-
-
-
 
 
         public void relayRequest (Message m, Thermostat t) throws Exception {

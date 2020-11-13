@@ -21,18 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="12e31905-e449-4c41-bf2f-2686830ead90" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AESAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/AttackSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Authenticator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Gateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/GatewayWaiting.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/RSAAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/RSAAlgorithm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Thermostat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Thermostat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/ThermostatControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gateway_simulation/Ticket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,38 +137,38 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="1312" y="339" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1605071106916" />
-    <state width="1294" height="210" key="GridCell.Tab.0.bottom" timestamp="1605252951930">
+    <state width="1294" height="118" key="GridCell.Tab.0.bottom" timestamp="1605253560326">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.0.center" timestamp="1605252951930">
+    <state width="1294" height="118" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605253560326" />
+    <state width="1294" height="118" key="GridCell.Tab.0.center" timestamp="1605253560326">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.0.left" timestamp="1605252951930">
+    <state width="1294" height="118" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605253560326" />
+    <state width="1294" height="118" key="GridCell.Tab.0.left" timestamp="1605253560325">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.0.right" timestamp="1605252951930">
+    <state width="1294" height="118" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605253560325" />
+    <state width="1294" height="118" key="GridCell.Tab.0.right" timestamp="1605253560326">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.1.bottom" timestamp="1605252951930">
+    <state width="1294" height="118" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605253560326" />
+    <state width="1294" height="210" key="GridCell.Tab.1.bottom" timestamp="1605253531010">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.1.center" timestamp="1605252951930">
+    <state width="1294" height="210" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605253531010" />
+    <state width="1294" height="210" key="GridCell.Tab.1.center" timestamp="1605253531010">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.1.left" timestamp="1605252951930">
+    <state width="1294" height="210" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605253531010" />
+    <state width="1294" height="210" key="GridCell.Tab.1.left" timestamp="1605253531010">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
-    <state width="1294" height="210" key="GridCell.Tab.1.right" timestamp="1605252951930">
+    <state width="1294" height="210" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605253531010" />
+    <state width="1294" height="210" key="GridCell.Tab.1.right" timestamp="1605253531010">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1294" height="210" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605252951930" />
+    <state width="1294" height="210" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605253531010" />
     <state x="563" y="237" key="SettingsEditor" timestamp="1604644058351">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -217,7 +207,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gateway_simulation/Gateway.java</url>
-          <line>132</line>
+          <line>124</line>
           <option name="timeStamp" value="244" />
         </line-breakpoint>
       </breakpoints>

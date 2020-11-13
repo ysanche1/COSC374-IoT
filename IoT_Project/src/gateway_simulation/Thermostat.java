@@ -142,7 +142,7 @@ public class Thermostat implements Runnable {
 
         }
         Message r = new Message(m.command,m.custom);
-        r.update = aes.encrypt("Thermostat set to" + currentTemp);
+        r.update = aes.encrypt("Thermostat set to " + currentTemp);
         r.key = rsaE.encrypt(aesKey);
         Main.atk.thermPublicKey = publicKey;
         Main.gateway.relayResponse(r, this);
