@@ -22,6 +22,7 @@ public class Thermostat implements Runnable {
     RSAAlgorithm rsaE;
     RSAAlgorithm rsaD;
     Boolean lockdown = false;
+    Boolean cloudOnline = true;
     public Thermostat() throws NoSuchAlgorithmException {
         timeOfDay = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
         if(timeOfDay <0){
@@ -110,8 +111,6 @@ public class Thermostat implements Runnable {
         }
     }
 
-
-
     //Receives request AES encrypted message, decrypts AES key using RSA private key, decrypts message with recovered key,
     //Sends response back to gateway encrypted with AES key
     public void receiveRequest(Message m) throws Exception {
@@ -124,8 +123,8 @@ public class Thermostat implements Runnable {
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
         switch (m.command) {
-            case "PORTSCAN": {
-                System.out.println("*********BEGINNING PORT SCAN***********");
+            case "UNLOCK DOOR": {
+                System.out.println("*********UNLOCKING FRONT DOOR***********");
                 break;
             }
             case "INCREASE": {
@@ -139,7 +138,6 @@ public class Thermostat implements Runnable {
             case "CUSTOM":
                 setTemperature(Integer.parseInt(m.custom));
                 break;
-
         }
         Message r = new Message(m.command,m.custom);
         r.update = aes.encrypt("Thermostat set to " + currentTemp);

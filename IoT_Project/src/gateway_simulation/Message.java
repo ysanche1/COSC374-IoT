@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Observable;
 
-public class Message {
+public class Message implements Cloneable{
+    public String pub_key;
     protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
     String clientID;
@@ -22,10 +23,17 @@ public class Message {
     boolean containsTicket; //for displayContent()
     boolean containsAuth; //^
     boolean error = false; //set to true if bad info is given
-    PublicKey pk;
     String command;
     String custom;
     String update;
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        Message cloned = (Message)super.clone();
+        return cloned;
+    }
+
     public Message(){}
 
     public Message(String update) {
@@ -38,10 +46,17 @@ public class Message {
         this.custom = custom;
     }
 
-    public Message(Message m) {
+   /* public Message(Message m) {
         this.mNum = Integer.valueOf(m.mNum);
         this.key = String.valueOf(m.key);
         this.ticket = new Ticket(m.ticket);
+    }*/
+
+    public Message(Message m) {
+        this.mNum = m.mNum;
+        this.ticket = new Ticket(m.ticket);
+        this.auth = new Authenticator(m.auth);
+        this.pub_key = m.pub_key;
     }
 
     public Message(boolean b) {
@@ -61,6 +76,8 @@ public class Message {
         System.out.print("  Timestamp = " + timestamp + " ||");
         processing.processMed();
         System.out.print(" Lifetime = " + lifetime + " ||\n");
+        processing.processMed();
+        System.out.print(" Public Key = " + pub_key + " ||\n");
         processing.processMed();
         if (!containsTicket)
             System.out.print("      No Ticket ");
@@ -153,9 +170,10 @@ public class Message {
     }
 
     //MESSAGE 5 Client to Gateway
-    public Message createMessage5(Ticket ticketGateway, Authenticator auth) {
+    public Message createMessage5(String pub, Ticket ticketGateway, Authenticator auth) {
         Message m = new Message();
         m.mNum = 5;
+        m.pub_key = pub;
         m.ticket = ticketGateway;
         m.auth = auth;
         m.containsTicket = true;

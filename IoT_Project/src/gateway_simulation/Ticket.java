@@ -22,10 +22,12 @@ public class Ticket {
     }
 
     public Ticket(Ticket ticket) {
-        key = ticket.key;
-        clientID = ticket.clientID;
-        clientAD = ticket.clientAD;
-        serverID = ticket.serverID;
+        this.key = ticket.key;
+        this.clientID = ticket.clientID;
+        this. clientAD = ticket.clientAD;
+        this.serverID = ticket.serverID;
+        this.timestamp = ticket.timestamp;
+        this.lifetime = ticket.lifetime;
     }
 
     private void createTimeStamps()

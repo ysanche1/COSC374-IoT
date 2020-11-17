@@ -13,7 +13,12 @@ public class Authenticator{
         timestamp = l;
         clientID = cID;
         clientAddress = cAD;
-
+    }
+    public Authenticator(Authenticator a)
+    {
+        this.timestamp = a.timestamp;
+        this.clientID = a.clientID ;
+        this.clientAddress = a.clientAddress;
     }
 }
 

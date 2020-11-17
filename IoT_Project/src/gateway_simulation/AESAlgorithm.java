@@ -86,12 +86,12 @@ public class AESAlgorithm {
 
         switch (m.mNum) {
             case 2:
-                    m.lifetime = decrypt(m.lifetime);
-                    m.key = decrypt(m.key);
-                    m.serverID = decrypt(m.serverID);
-                    m.timestamp = decrypt(m.timestamp);
-                    //m.ticketRetrieval = decrypt(m.ticketRetrieval);
-                    break;
+                m.lifetime = decrypt(m.lifetime);
+                m.key = decrypt(m.key);
+                m.serverID = decrypt(m.serverID);
+                m.timestamp = decrypt(m.timestamp);
+                //m.ticketRetrieval = decrypt(m.ticketRetrieval);
+                break;
             case 3:
                 decryptTicket(m.ticket);
                 AESAlgorithm aesAT = new AESAlgorithm(m.ticket.key);
@@ -102,11 +102,14 @@ public class AESAlgorithm {
                 m.timestamp = decrypt(m.timestamp);
               //  m.ticketRetrieval = decrypt(m.ticketRetrieval);
                 break;
-            case 5: decryptTicket(m.ticket);
-                    aesAT = new AESAlgorithm(m.ticket.key);
-                    aesAT.decryptAuthenticator(m.auth);break;
-            case 7: m.command = decrypt(m.command);
-                    m.custom = decrypt(m.custom);
+            case 5:
+                decryptTicket(m.ticket);
+                aesAT = new AESAlgorithm(m.ticket.key);
+                aesAT.decryptAuthenticator(m.auth);
+                m.pub_key = aesAT.decrypt(m.pub_key);break;
+            case 7:
+                m.command = decrypt(m.command);
+                m.custom = decrypt(m.custom);
         }
         return m;
     }

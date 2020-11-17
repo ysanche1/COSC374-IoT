@@ -26,9 +26,20 @@ public class ThermostatControl extends JFrame{
     private JPanel tempDisplayPanel;
     AESAlgorithm aes;
     String aesKey;
+    PrivateKey appPrivateKey;
+    PublicKey appPublicKey;
+    PublicKey gatewayPublicKey;
 
-public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
+public ThermostatControl(String aesKey, Message m) throws Exception {
+
+        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
+        PublicKey publicKey = rsaK.getPublicKey();
+        PrivateKey privateKey = rsaK.getPrivateKey();
+        RSAAlgorithm rsaD = new RSAAlgorithm(privateKey);
         this.aesKey = aesKey;
+        aes = new AESAlgorithm(aesKey);
+        gatewayPublicKey = rsaD.strToKey(aes.decrypt(m.pub_key));
+        this.aesKey = aes.decrypt(m.key);
         thermostat = new Thermostat();
         String increase = "INCREASE";
         String decrease = "DECREASE";

@@ -4,12 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GatewayWaiting extends JDialog {
+public class GatewayAlert extends JDialog {
     private JPanel contentPane;
     private JLabel statusMessage;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int frameX; int frameY;
-    public GatewayWaiting() {
+    public GatewayAlert() {
         setTitle("Gateway");
         setContentPane(contentPane);
         pack();

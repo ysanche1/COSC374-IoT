@@ -17,8 +17,8 @@ public class AttackSim extends JFrame {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int frameX; int frameY;
     Message capturedMessage;
-    public AttackSim(Message message) {
-        capturedMessage = message;
+    Message confirmation;
+    public AttackSim() {
         setTitle("Gateway");
         setContentPane(panel1);
         pack();
@@ -49,11 +49,19 @@ public class AttackSim extends JFrame {
     }
 
     private void attemptLogin() throws Exception {
-        Main.gateway.receiveSGT(capturedMessage);
+        System.out.println("\n(((Attempting Login Using Captured Ticket)))");
+        confirmation = Main.gateway.receiveSGT(capturedMessage);
+        confirmation.displayContents();
+    }
+
+    public void capture(Message m) throws CloneNotSupportedException {
+        capturedMessage =  (Message) m.clone();
+
     }
 
     private void attemptPortScan() throws Exception {
-        Message portScan = new Message("PORTSCAN", "");
+        System.out.println("\n(((Attempting to unlock door)))");
+        Message portScan = new Message("UNLOCK DOOR", "");
         RSAAlgorithm rsa = new RSAAlgorithm(thermPublicKey);
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         portScan.command = aes.encrypt(portScan.command);
@@ -61,7 +69,8 @@ public class AttackSim extends JFrame {
         ThermostatControl.thermostat.receiveRequest(portScan);
     }
 
-    private void copyMessage(Message m){
+    void copyMessage(Message m){
         capturedMessage = new Message(m);
+        System.out.println("\n(((Service Granting Ticket Captured by Attacker)))");
     }
 }
