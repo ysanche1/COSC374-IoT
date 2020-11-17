@@ -8,12 +8,17 @@ public class Authenticator{
     String clientAddress;
     String timestamp;
 
-    public Authenticator(String key, String cID, String cAD, String l)
+    public Authenticator(String cID, String cAD, String l)
     {
         timestamp = l;
-        this.key = key; clientID = cID;
+        clientID = cID;
         clientAddress = cAD;
-
+    }
+    public Authenticator(Authenticator a)
+    {
+        this.timestamp = a.timestamp;
+        this.clientID = a.clientID ;
+        this.clientAddress = a.clientAddress;
     }
 }
 

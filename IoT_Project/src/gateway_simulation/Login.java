@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Date;
 
 public class Login extends JFrame implements Runnable{
@@ -25,8 +28,18 @@ public class Login extends JFrame implements Runnable{
     Ticket ticket;
     Boolean ticketRetrieved = false;
     Message message;
+    PublicKey appPublickKey;
+    PublicKey gatewayPublicKey;
+    PrivateKey appPrivateKey;
+    RSAAlgorithm rsaE;
+    RSAAlgorithm rsaD;
 
-    public Login(Kerberos kdc) {
+
+    public Login(Kerberos kdc) throws NoSuchAlgorithmException {
+        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
+        appPublickKey = rsaK.getPublicKey();
+        appPrivateKey = rsaK.getPrivateKey();
+        rsaD = new RSAAlgorithm(appPrivateKey);
      //   System.out.println("MESSAGE UNIQUE HASH = "+ System.identityHashCode(m)+"\n");
         setTitle("Login");
         setContentPane(mainPanel);
@@ -129,8 +142,13 @@ public class Login extends JFrame implements Runnable{
                         break;
                     case 4:
                         message.ticket.displayContents();
-                        message = message.createMessage5(sharedKey, message.ticket, createAuthenticator());
+                        aes = new AESAlgorithm(sharedKey);
+                        String pub_str = rsaD.keyToStr(appPublickKey);
+                        message = message.createMessage5(aes.encrypt(pub_str), message.ticket, createAuthenticator());
                         ticketRetrieved = true;
+                        Main.atk.copyMessage(message);
+                        Message finalMessage = Main.gateway.receiveSGT(message);
+                        Main.tc = new ThermostatControl(sharedKey, finalMessage);
                         break;
                 }
             }
@@ -139,7 +157,7 @@ public class Login extends JFrame implements Runnable{
 
 
     private Authenticator createAuthenticator() throws Exception {
-        Authenticator auth = new Authenticator(sharedKey, clientID, "CLIENT_ADDRESS", String.valueOf(System.currentTimeMillis()));
+        Authenticator auth = new Authenticator(clientID, "CLIENT_ADDRESS", String.valueOf(System.currentTimeMillis()));
         AESAlgorithm authAES = new AESAlgorithm(sharedKey);
         System.out.println("\nAUTH TIMESTAMP " +auth.timestamp+"\n");
         authAES.encryptAuthenticator(auth);
@@ -148,7 +166,13 @@ public class Login extends JFrame implements Runnable{
 
     @Override
     public void run() {
+while(!ticketRetrieved){}
+    }
 
+    public Message getMessage() {
+        System.out.println("SGT CONTENTS: ");
+        ticket.displayContents();
+        return message;
     }
 }
 

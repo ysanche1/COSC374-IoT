@@ -11,7 +11,7 @@ import java.security.PublicKey;
 
 
 public class ThermostatControl extends JFrame{
-    Thermostat t;
+    static Thermostat thermostat;
     private JPanel panel1;
     private JButton increaseButton;
     private JButton decreaseButton;
@@ -26,15 +26,25 @@ public class ThermostatControl extends JFrame{
     private JPanel tempDisplayPanel;
     AESAlgorithm aes;
     String aesKey;
-    String thermostatResponse;
+    PrivateKey appPrivateKey;
+    PublicKey appPublicKey;
+    PublicKey gatewayPublicKey;
 
-public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
+public ThermostatControl(String aesKey, Message m) throws Exception {
+
+        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
+        PublicKey publicKey = rsaK.getPublicKey();
+        PrivateKey privateKey = rsaK.getPrivateKey();
+        RSAAlgorithm rsaD = new RSAAlgorithm(privateKey);
         this.aesKey = aesKey;
-        t = new Thermostat();
+        aes = new AESAlgorithm(aesKey);
+        gatewayPublicKey = rsaD.strToKey(aes.decrypt(m.pub_key));
+        this.aesKey = aes.decrypt(m.key);
+        thermostat = new Thermostat();
         String increase = "INCREASE";
         String decrease = "DECREASE";
         String custom = "CUSTOM";
-        Main.gateway.initialize(t);
+        Main.gateway.initialize(thermostat);
     setContentPane(panel1);
     setTitle("Thermostat Controller");
     setResizable(false);
@@ -46,7 +56,7 @@ public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
     int frameY = (screenSize.height / 2) - (getHeight());;                                 //
     setLocation(frameX, frameY);
     setVisible(true);
-    t.main();
+    thermostat.main();
     increaseButton.addActionListener(e -> {
         try {
             newRequest(increase, "");
@@ -72,9 +82,22 @@ public ThermostatControl(String aesKey) throws NoSuchAlgorithmException {
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
-        m = Main.gateway.relayRequest(m, t);
+        Main.gateway.relayRequest(m, thermostat);
+
+    }
+
+    public void receiveResponse(Message m) throws Exception {
         aesKey = aes.decrypt(m.key);
-        updateField.setText(aes.decrypt(m.response));
+        Main.atk.aesKey = aesKey;
+        aes = new AESAlgorithm(aesKey);
+        if(m.error == true) {
+            increaseButton.setEnabled(false);
+            decreaseButton.setEnabled(false);
+            customButton.setEnabled(false);
+            updateField.setText(aes.decrypt(m.update));
+        }
+        else
+            updateField.setText(aes.decrypt(m.update));
     }
 }
 

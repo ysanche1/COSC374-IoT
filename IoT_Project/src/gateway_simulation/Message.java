@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Observable;
 
-public class Message {
+public class Message implements Cloneable{
+    public String pub_key;
     protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
     String clientID;
@@ -22,20 +23,45 @@ public class Message {
     boolean containsTicket; //for displayContent()
     boolean containsAuth; //^
     boolean error = false; //set to true if bad info is given
-    PublicKey pk;
     String command;
     String custom;
-    String response;
+    String update;
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        Message cloned = (Message)super.clone();
+        return cloned;
+    }
+
     public Message(){}
 
-    public Message(String response) {
-        this.response = response;
+    public Message(String update) {
+        this.update = update;
     }
 
     public Message(String command, String custom) {
         mNum = 7;
         this.command = command;
         this.custom = custom;
+    }
+
+   /* public Message(Message m) {
+        this.mNum = Integer.valueOf(m.mNum);
+        this.key = String.valueOf(m.key);
+        this.ticket = new Ticket(m.ticket);
+    }*/
+
+    public Message(Message m) {
+        this.mNum = m.mNum;
+        this.ticket = new Ticket(m.ticket);
+        this.auth = new Authenticator(m.auth);
+        this.pub_key = m.pub_key;
+    }
+
+    public Message(boolean b) {
+        update = "Possible intrusion detected - device quarantined";
+        error = b;
     }
 
     public void displayContents() {
@@ -50,6 +76,8 @@ public class Message {
         System.out.print("  Timestamp = " + timestamp + " ||");
         processing.processMed();
         System.out.print(" Lifetime = " + lifetime + " ||\n");
+        processing.processMed();
+        System.out.print(" Public Key = " + pub_key + " ||\n");
         processing.processMed();
         if (!containsTicket)
             System.out.print("      No Ticket ");
@@ -142,10 +170,10 @@ public class Message {
     }
 
     //MESSAGE 5 Client to Gateway
-    public Message createMessage5(String key, Ticket ticketGateway, Authenticator auth) {
+    public Message createMessage5(String pub, Ticket ticketGateway, Authenticator auth) {
         Message m = new Message();
         m.mNum = 5;
-        m.key = key;
+        m.pub_key = pub;
         m.ticket = ticketGateway;
         m.auth = auth;
         m.containsTicket = true;

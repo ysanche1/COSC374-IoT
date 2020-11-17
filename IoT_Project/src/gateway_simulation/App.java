@@ -1,6 +1,7 @@
 package gateway_simulation;
 
 import java.beans.PropertyChangeSupport;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 public class App implements Runnable {
@@ -9,16 +10,12 @@ public class App implements Runnable {
     PublicKey gwPublicKey;
     boolean loggedIn;
 
-    public App(Kerberos kdc) {
+    public App(Kerberos kdc) throws NoSuchAlgorithmException {
         this.kdc = kdc;
         login = new Login(kdc);
     }
 
-    public Message sgtRetrieval() {
-        System.out.println("SGT CONTENTS: ");
-        login.ticket.displayContents();
-        return login.message;
-    }
+
 
 
     @Override

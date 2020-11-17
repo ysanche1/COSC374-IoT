@@ -1,8 +1,11 @@
 package gateway_simulation;
 
 import javax.crypto.Cipher;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class RSAAlgorithm {
@@ -13,7 +16,7 @@ public class RSAAlgorithm {
     public RSAAlgorithm(PublicKey p) { //For client and ticket decryption
         pub = p;
     }
-    public RSAAlgorithm(PrivateKey p) { //For client and ticket decryption
+    public RSAAlgorithm(PrivateKey p) {
         priv = p;
     }
 
@@ -35,6 +38,21 @@ public class RSAAlgorithm {
         return decryptedString;
     }
 
+    public String keyToStr(PublicKey key){
+        byte[] byte_pubkey = key.getEncoded();
+        String str_key = Base64.getEncoder().encodeToString(byte_pubkey);
+// String str_key = new String(byte_pubkey,Charset.);
+        return str_key;
+    }
+
+    public PublicKey strToKey(String key) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] byte_pubkey  = Base64.getDecoder().decode(key);
+        KeyFactory factory = KeyFactory.getInstance(ALGO);
+        PublicKey pk =  factory.generatePublic(new X509EncodedKeySpec(byte_pubkey));
+        return pk;
+    }
+
+
     public void encryptMessage(Message m) throws Exception {
         m.custom = encrypt(m.custom);
         m.command = encrypt(m.command);
@@ -47,7 +65,7 @@ public class RSAAlgorithm {
                 m.command = decrypt(m.command);
                 break;
             case 2:
-                m.response = decrypt(m.response);
+                m.update = decrypt(m.update);
         }
     }
 }

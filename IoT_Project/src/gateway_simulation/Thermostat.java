@@ -19,7 +19,10 @@ public class Thermostat implements Runnable {
     PrivateKey privateKey;
     PublicKey gwPublicKey;
     private String aesKey;
-
+    RSAAlgorithm rsaE;
+    RSAAlgorithm rsaD;
+    Boolean lockdown = false;
+    Boolean cloudOnline = true;
     public Thermostat() throws NoSuchAlgorithmException {
         timeOfDay = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
         if(timeOfDay <0){
@@ -28,7 +31,7 @@ public class Thermostat implements Runnable {
         RSAKeyPairGenerator rsaKP = new RSAKeyPairGenerator();
         publicKey = rsaKP.getPublicKey();
         privateKey = rsaKP.getPrivateKey();
-        gwPublicKey = Main.gateway.publicKey;
+        rsaD = new RSAAlgorithm(privateKey);
         System.out.println("Thermostat Running");
         //     System.out.println("THERMOSTAT I JUST MADE = "+System.identityHashCode(this));
     }
@@ -75,7 +78,7 @@ public class Thermostat implements Runnable {
             setUp = true;
         }
         int uptime = 0;
-        while (!Main.gateway.activeRequest) {
+        while (!Main.gateway.activeRequest & !lockdown) {
            // System.out.println("\n" + Thread.currentThread());
           //  System.out.println(System.identityHashCode(this));
             anchorTemp = currentTemp;
@@ -108,37 +111,45 @@ public class Thermostat implements Runnable {
         }
     }
 
-
     //Receives request AES encrypted message, decrypts AES key using RSA private key, decrypts message with recovered key,
     //Sends response back to gateway encrypted with AES key
-    public Message receiveRequest(Message m) throws Exception {
+    public void receiveRequest(Message m) throws Exception {
         System.out.println("\nRequest at thermostat");
-        RSAAlgorithm rsa = new RSAAlgorithm(privateKey);
-        aesKey = rsa.decrypt(m.key);
+        if(lockdown){
+            Message r = new Message();
+            r.update = "Security breach detected - Lockdown in effect";
+        }
+        aesKey = rsaD.decrypt(m.key);
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
         switch (m.command) {
+            case "UNLOCK DOOR": {
+                System.out.println("*********UNLOCKING FRONT DOOR***********");
+                break;
+            }
             case "INCREASE": {
-                //          System.out.println(Thread.currentThread());
                 setTemperature(currentTemp+1);
                 break;
             }
             case "DECREASE":{
-                //           System.out.println(Thread.currentThread());
                 setTemperature(currentTemp-1);
                 break;
             }
             case "CUSTOM":
-                //           System.out.println(Thread.currentThread());
-                setTemperature(Integer.parseInt(m.custom));break;
+                setTemperature(Integer.parseInt(m.custom));
+                break;
         }
-        Message r = new Message("Thermostat set to " + currentTemp);
-        r.response = aes.encrypt(r.response);
-        return r;
+        Message r = new Message(m.command,m.custom);
+        r.update = aes.encrypt("Thermostat set to " + currentTemp);
+        r.key = rsaE.encrypt(aesKey);
+        Main.atk.thermPublicKey = publicKey;
+        Main.gateway.relayResponse(r, this);
     }
 
     //used to reset the thread after requests
     public void main(){
+        gwPublicKey = Main.gateway.publicKey;
+        rsaE = new RSAAlgorithm(gwPublicKey);
         Main.gateway.activeRequest = false;
         t = new Thread(this,"THERMOTHREAD");
         t.start();
@@ -156,26 +167,14 @@ public class Thermostat implements Runnable {
 
     }
 
-    public void receiveAesKey(String sharedKey) {
-        this.aesKey = sharedKey;
-    }
 
     public PublicKey getPublicKey() {
         return publicKey;
     }
-    //     int newTemp;
-       //     Thermostat thermostat = new Thermostat();
-       //     Thread t1 = new Thread(thermostat, "ThermoStat Thread");
-       //     t1.start();
-      //      Scanner k = new Scanner(System.in);
-          //  do {
-              //  newTemp = Integer.valueOf(k.next());
-               // System.out.println("Thermostat set to " + newTemp);
-            //    t1.interrupt();
 
-            //    t1 = new Thread(thermostat);
-          //      t1.start();
-        //    } while (true);
+    public void lock(){
+        lockdown = true;
+    }
 
 
 
