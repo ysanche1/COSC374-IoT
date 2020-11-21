@@ -28,20 +28,11 @@ public class Login extends JFrame implements Runnable{
     Ticket ticket;
     Boolean ticketRetrieved = false;
     Message message;
-    PublicKey appPublickKey;
-    PublicKey gatewayPublicKey;
-    PrivateKey appPrivateKey;
-    RSAAlgorithm rsaE;
-    RSAAlgorithm rsaD;
 
 
     public Login(Kerberos kdc) throws NoSuchAlgorithmException {
-        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
-        appPublickKey = rsaK.getPublicKey();
-        appPrivateKey = rsaK.getPrivateKey();
-        rsaD = new RSAAlgorithm(appPrivateKey);
      //   System.out.println("MESSAGE UNIQUE HASH = "+ System.identityHashCode(m)+"\n");
-        setTitle("Login");
+        setTitle("Gateway Login");
         setContentPane(mainPanel);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -96,9 +87,6 @@ public class Login extends JFrame implements Runnable{
             attemptDecryption(kdc, password);} // try to get ticket
         }
 
-
-
-
     //same as above but message 3 but with a call to createAuthenticator()
     public synchronized void ticketGrantingServiceExchangeInit(Kerberos kdc) throws Exception {
         message = message.createMessage3(gatewayID, ticket, createAuthenticator());
@@ -143,12 +131,11 @@ public class Login extends JFrame implements Runnable{
                     case 4:
                         message.ticket.displayContents();
                         aes = new AESAlgorithm(sharedKey);
-                        String pub_str = rsaD.keyToStr(appPublickKey);
+                        String pub_str = Main.app.rsaK.keyToStr(Main.app.appPublickKey);
                         message = message.createMessage5(aes.encrypt(pub_str), message.ticket, createAuthenticator());
                         ticketRetrieved = true;
-                        Main.atk.copyMessage(message);
                         Message finalMessage = Main.gateway.receiveSGT(message);
-                        Main.tc = new ThermostatControl(sharedKey, finalMessage);
+                        Main.tc = new ThermostatControl(sharedKey, message, finalMessage);
                         break;
                 }
             }

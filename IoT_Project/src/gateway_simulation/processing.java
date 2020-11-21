@@ -7,21 +7,21 @@ public class processing {
     static void processLong()
     {
         try{
-            Thread.sleep(0);  //500
+        //    Thread.sleep(500);  //500
         }catch(Exception e){}
     }
 
     static void processMed()
     {
         try{
-            Thread.sleep(0);  //210
+   //         Thread.sleep(210);  //210
         }catch(Exception e){}
     }
 
     static void processFast()
     {
         try{
-            Thread.sleep(150);
+  //          Thread.sleep(150);
         }catch(Exception e){}
     }
 }

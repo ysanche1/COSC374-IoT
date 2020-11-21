@@ -9,6 +9,7 @@ import java.security.PublicKey;
 import java.util.Random;
 
 public class Gateway extends JFrame{
+    public Broker broker;
     String message5AESKey;
     CloudBackup cloudBackup = new CloudBackup();
     GatewayCloud gatewayCloud = new GatewayCloud();
@@ -30,12 +31,12 @@ public class Gateway extends JFrame{
     PublicKey appPublicKey;
     boolean activeRequest;
     RSAAlgorithm rsaD;
-    RSAAlgorithm rsaE;
+    RSAAlgorithm rsaEApp;
+    RSAAlgorithm rsaETherm;
     boolean lockdown;
     String[] deviceFunctions = new String[]{"INCREASE","DECREASE","CUSTOM"};
     String[] threatAssessment = new String[]{"OK","OK","OK"};
     Message warning = new Message(true);
-    Message confirmation;
     public Gateway() {
         try {
             generateKeyPair();
@@ -54,45 +55,57 @@ public class Gateway extends JFrame{
     }
 
     public Message receiveSGT(Message m) throws Exception {
+            Message confirmation = new Message();
             m.ticket.displayContents();
             Message copy = new Message(m);
             AESAlgorithm aes = new AESAlgorithm(keyTGS_V);
             aes.decryptMessage(copy);
             if (Long.parseLong(copy.ticket.lifetime) < System.currentTimeMillis()  //timestamp check
-                    | Long.parseLong(copy.ticket.lifetime) < Long.parseLong(copy.auth.timestamp)) {
-                gatewayAlert.setStatus(replayDetected(Long.parseLong(copy.ticket.lifetime)));
-                gatewayAlert.pack();
-                gatewayAlert.setVisible(true);
-            }
-                else{
-                    appPublicKey = rsaD.strToKey(copy.pub_key);
+                   | Long.parseLong(copy.ticket.lifetime) < Long.parseLong(copy.auth.timestamp)
+                    | copy.ticket.key.equals(message5AESKey)) {
+                replayDetected(Long.parseLong(copy.ticket.lifetime));
+           }
+               else {
+                    appPublicKey = rsaKG.strToKey(copy.pub_key);
                     message5AESKey = copy.ticket.key;
                     aes = new AESAlgorithm(message5AESKey);
                     String newAeskey = generateNewAesKey();
                     confirmation = new Message();
-                    rsaE = new RSAAlgorithm(appPublicKey);
-                    confirmation.pub_key = rsaE.keyToStr(publicKey);
+                    rsaEApp = new RSAAlgorithm(appPublicKey);
+                    confirmation.pub_key = rsaKG.keyToStr(publicKey);
                     confirmation.key = newAeskey;
                     confirmation.pub_key=  aes.encrypt(confirmation.pub_key);
                     confirmation.key= aes.encrypt(confirmation.key);
                     sharedKey = newAeskey;
                     gatewayAlert.dispatchEvent(new WindowEvent(gatewayAlert, WindowEvent.WINDOW_CLOSING));
+
                 }
         return confirmation;
         }
 
-    private String replayDetected(Long lifetime) {
+    private void replayDetected(Long lifetime) {
         long sec = ((System.currentTimeMillis()-lifetime)/1000);
         long dec = ((System.currentTimeMillis()-lifetime)%1000);
-        String seconds = "second";
-        if (dec!=0){
-            seconds+="s";
+
+        gatewayAlert.setStatus("REPLAY DETECTED - ACCESS DENIED");
+
+        if (sec > 0)
+        { String seconds = "second";
+            if (dec!=0){
+                seconds+="s";
+            }
+            gatewayAlert.setStatus2("Request expired for "+sec+"."+dec+" "+seconds);
         }
-        return "REPLAY DETECTED - ACCESS DENIED\n\n Request expired for "+sec+"."+dec+" "+seconds;
+        else
+            gatewayAlert.setStatus("Expired key");
+
+        gatewayAlert.pack();
+        gatewayAlert.setVisible(true);
     }
         void initialize (Thermostat t) {
             thermPublicKey = t.getPublicKey();
-            rsaE = new RSAAlgorithm(thermPublicKey);
+            rsaETherm = new RSAAlgorithm(thermPublicKey);
+            broker = new Broker(rsaEApp, rsaD);
             setTitle("Gateway");
             setContentPane(mainPanel);
             setResizable(false);
@@ -108,14 +121,14 @@ public class Gateway extends JFrame{
 
         private String checkThreatDB(String m)
         {
-            for(int i = 0; i < deviceFunctions.length-1; i++) {
+            for(int i = 0; i < deviceFunctions.length; i++) {
                 if (m.equals(deviceFunctions[i]))
                     if (threatAssessment[i].equals("WARNING") | threatAssessment[i].equals("OK"))
                         return threatAssessment[i];
             }
                         evaluations = new String[2];
                         evaluations = gatewayCloud.evaluate(m);
-                        updateLocalThreatDB(gatewayCloud.evaluate(m));
+                        updateLocalThreatDB(evaluations);
                         return evaluations[1];
         }
 
@@ -134,19 +147,46 @@ public class Gateway extends JFrame{
         threatAssessment = ta;
     }
 
+    public String getAesKey(){
+        return sharedKey;
+    }
+
+    private void checkCloudStatus(Thermostat t) {
+        if (Main.tcCloud.cloudOnline) {
+            t.activeCloud = Main.tcCloud;
+            Main.tc.setNotification("Cloud Backup: Inactive");
+        }
+        else {
+            cloudBackup.targetTemp = t.activeCloud.targetTemp;
+            t.activeCloud = cloudBackup;
+            Main.tc.setNotification("Cloud Backup: Active");
+        }
+    }
 
     public void relayRequest (Message m, Thermostat t) throws Exception {
             //     System.out.println(Thread.currentThread());
-            alert.setText("Request at gateway");
             //      System.out.println(System.identityHashCode(t));
             if (lockdown == true)
                 Main.tc.receiveResponse(warning);
-          //  aes.decryptMessage(m);
+
+            checkCloudStatus(t);
+
+            try{
+                m.key = rsaD.decrypt(m.key);
+               if(!sharedKey.equals(m.key)){
+                   Main.tc.setNotification("BAD KEY");
+                    Main.tc.receiveResponse(warning);
+                }
+            } catch (Exception e) {
+                Main.tc.setNotification("BAD KEY");
+                Main.tc.receiveResponse(warning);
+            }
+        m.key = rsaETherm.encrypt(m.key);
+        //  aes.decryptMessage(m);
           //  aes.encryptMessage(m);
-            m.key = rsaE.encrypt(sharedKey);
+        Message temp = new Message();
             activeRequest = true;
             //   System.out.println(messageOK);
-            alert.setText("Request sent to thermostat");
             t.receiveRequest(m);
         }
 
@@ -158,16 +198,15 @@ public class Gateway extends JFrame{
         //   System.out.println(messageOK);
 
         r.update = aes.decrypt(r.update);
+        r.command = aes.decrypt(r.command);
         String newAeskey = generateNewAesKey();
         switch (checkThreatDB(r.command)){
             case "OK":
-                alert.setText("confirmation received from thermostat");
                 r.key = newAeskey;
-                t.main();
                 break;
             case "WARNING":
                 t.lock();
-                gatewayAlert.setStatus("Request: "+r.update+"from THERMOSTAT matches known intrusion pattern");
+                gatewayAlert.setStatus("Request: "+r.command+" from THERMOSTAT matches known intrusion pattern");
                 gatewayAlert.pack();
                 gatewayAlert.setVisible(true);
                 lockdown = true;
@@ -180,18 +219,18 @@ public class Gateway extends JFrame{
         r.update = aes.encrypt(r.update);
         sharedKey = newAeskey;
         Main.tc.receiveResponse(r);
+        if(!lockdown)
+            t.main();
     }
 
-
-
-
-
-    private String generateNewAesKey() {
+    private String generateNewAesKey() throws InterruptedException {
         String salt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
         String newKey = "";
         for(int i = 0 ; i<16; i++)
             newKey += salt.charAt(new Random().nextInt(46));
-        System.out.println("NEW SHARED KEY: "+newKey+"\n");
+        Thread.sleep(500);
+        System.out.println("\nNEW SHARED KEY: "+newKey+"\n");
+        Thread.sleep(500);
         return newKey;
     }
 }

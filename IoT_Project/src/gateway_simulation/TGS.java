@@ -25,6 +25,7 @@ public class TGS {
         System.out.println("    ********TICKET RETRIEVED******\n");
         processing.processFast();
         processing.processMed();
+        System.out.println(System.currentTimeMillis());
         if (Long.parseLong(m.ticket.lifetime) < System.currentTimeMillis()  //timestamp check
                 | Long.parseLong(m.ticket.lifetime) < Long.parseLong(m.auth.timestamp)) {
             System.out.println("    EXPIRED TICKET - RE-AUTHORIZATION REQUIRED");

@@ -1,6 +1,6 @@
 package gateway_simulation;
 
-public class GatewayCloud {
+public class GatewayCloud{
     String[] deviceFunctions = new String[]{"INCREASE","DECREASE","CUSTOM", "UNLOCK DOOR"};
     String[] threatAssessment = new String[]{"OK","OK","OK","WARNING"};
     public GatewayCloud(){
@@ -21,5 +21,5 @@ public class GatewayCloud {
             evaluation[1] = "SUSPICIOUS";
             return evaluation;
         }
-    }
 
+}

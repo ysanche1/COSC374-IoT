@@ -22,7 +22,7 @@ public class Thermostat implements Runnable {
     RSAAlgorithm rsaE;
     RSAAlgorithm rsaD;
     Boolean lockdown = false;
-    Boolean cloudOnline = true;
+    DeviceCloud activeCloud;
     public Thermostat() throws NoSuchAlgorithmException {
         timeOfDay = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
         if(timeOfDay <0){
@@ -37,23 +37,6 @@ public class Thermostat implements Runnable {
     }
 
     // Function that sets the temperature
-    private synchronized void setTemperature(int temp) throws InterruptedException {
-      //  System.out.println("Set temp Thread = : " + Thread.currentThread());
-     //   System.out.println(System.identityHashCode(this));
-        System.out.println("Thermostat set to " + temp);
-        targetTemp = temp;
-        while (currentTemp != targetTemp) {
-            Thread.sleep(500);
-            if (currentTemp < targetTemp)
-                currentTemp++;
-            else
-                currentTemp--;
-            System.out.println("Current Temperature: " + currentTemp);
-        }
-        System.out.println("");
-        justSet = true;
-        targetTemp = 0;
-    }
 
     private void setup() {
         if (timeOfDay <= 2.16e+7) {
@@ -69,45 +52,56 @@ public class Thermostat implements Runnable {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp - 8, avgTemp + 1);
             endTime = 8.64e+7;
         }
+        activeCloud.targetTemp = currentTemp;
     }
 
     //Reports current temperature to console at regular intervals
-    private synchronized void temperatureSimulation(Thermostat t) throws InterruptedException {
+    private synchronized void temperatureSimulation(Thermostat t) throws Exception {
+        Message r = new Message();
+        checkCloudStatus();
         if (!setUp) {
             setup();
             setUp = true;
         }
         int uptime = 0;
         while (!Main.gateway.activeRequest & !lockdown) {
-           // System.out.println("\n" + Thread.currentThread());
-          //  System.out.println(System.identityHashCode(this));
-            anchorTemp = currentTemp;
-            //     System.out.println("Simulation Thread = : "+Thread.currentThread());
-            if (t.timeOfDay >= endTime)
-                setup();
-              if (justSet) {
-                  Thread.sleep(1000);
-                  justSet = false;
-              }
-            if (uptime == 3) {
-                currentTemp = anchorTemp - 1;
-                //ThreadLocalRandom.current().nextInt(t.anchorTemp - 1, t.anchorTemp + 1);
-                System.out.println("Current Temperature: " + currentTemp);
-                uptime = 0;
-                currentTemp = anchorTemp;
-            } else {
-                System.out.println("Current Temperature: " + currentTemp);
-                uptime++;
+            if (currentTemp != activeCloud.targetTemp) {
+                Thread.sleep(500);
+                if (currentTemp < activeCloud.targetTemp) {
+                    currentTemp++;
+                    r.update = rsaE.encrypt(String.valueOf(currentTemp));
+                    Main.gateway.broker.publish(r);
+                    Thread.sleep(500);
+                } else {
+                    currentTemp--;
+                    r.update = rsaE.encrypt(String.valueOf(currentTemp));
+                    Main.gateway.broker.publish(r);
+                    Thread.sleep(500);
+                }
             }
-            Thread.sleep(500);
-            if (!Main.gateway.activeRequest)
+            else {
+                anchorTemp = currentTemp;
+                if (t.timeOfDay >= endTime)
+                    setup();
+                if (uptime == 10) {
+                    //ThreadLocalRandom.current().nextInt(t.anchorTemp - 1, t.anchorTemp + 1);
+                    currentTemp = anchorTemp - 1;
+                    uptime = 0;
+                }
+                uptime++;
+                r.update = rsaE.encrypt(String.valueOf(currentTemp));
+                Main.gateway.broker.publish(r);
+                currentTemp = anchorTemp;
                 Thread.sleep(500);
-            if (!Main.gateway.activeRequest)
-                Thread.sleep(500);
-            if (!Main.gateway.activeRequest)
-                Thread.sleep(500);
-            if (!Main.gateway.activeRequest)
-                Thread.sleep(500);
+                if (!Main.gateway.activeRequest)
+                    Thread.sleep(500);
+                if (!Main.gateway.activeRequest)
+                    Thread.sleep(500);
+                if (!Main.gateway.activeRequest)
+                    Thread.sleep(500);
+                if (!Main.gateway.activeRequest)
+                    Thread.sleep(500);
+            }
         }
     }
 
@@ -115,39 +109,57 @@ public class Thermostat implements Runnable {
     //Sends response back to gateway encrypted with AES key
     public void receiveRequest(Message m) throws Exception {
         System.out.println("\nRequest at thermostat");
-        if(lockdown){
+        checkCloudStatus();
+        if (lockdown) {
             Message r = new Message();
             r.update = "Security breach detected - Lockdown in effect";
         }
         aesKey = rsaD.decrypt(m.key);
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
+        Message r = new Message(m.command, m.custom);
+
+        r.key = rsaE.encrypt(aesKey);
+        r.command = aes.encrypt(r.command);
+        r.custom = aes.encrypt(r.custom);
+        Main.tc.atk.captureKey(publicKey);
         switch (m.command) {
-            case "UNLOCK DOOR": {
-                System.out.println("*********UNLOCKING FRONT DOOR***********");
+             default: {
+                 r.update = aes.encrypt("UNLOCKING FRONT DOOR");
+                Main.gateway.relayResponse(r, this);
                 break;
             }
             case "INCREASE": {
-                setTemperature(currentTemp+1);
+                r.update = aes.encrypt("Thermostat set to " + (activeCloud.targetTemp+1));
+                Main.gateway.relayResponse(r, this);
+                activeCloud.increase();
                 break;
             }
-            case "DECREASE":{
-                setTemperature(currentTemp-1);
+            case "DECREASE": {
+                r.update = aes.encrypt("Thermostat set to " + (activeCloud.targetTemp-1));
+                Main.gateway.relayResponse(r, this);
+                activeCloud.decrease();
                 break;
             }
-            case "CUSTOM":
-                setTemperature(Integer.parseInt(m.custom));
+            case "CUSTOM": {
+                r.update = aes.encrypt("Thermostat set to " + m.custom);
+                Main.gateway.relayResponse(r, this);
+                activeCloud.setTemperature(Integer.parseInt(m.custom));
                 break;
+            }
         }
-        Message r = new Message(m.command,m.custom);
-        r.update = aes.encrypt("Thermostat set to " + currentTemp);
-        r.key = rsaE.encrypt(aesKey);
-        Main.atk.thermPublicKey = publicKey;
-        Main.gateway.relayResponse(r, this);
+    }
+
+    private void checkCloudStatus() {
+        if (Main.tcCloud.cloudOnline) {
+            activeCloud = Main.tcCloud;
+        }
+        else activeCloud = Main.gateway.cloudBackup;
     }
 
     //used to reset the thread after requests
     public void main(){
+        checkCloudStatus();
         gwPublicKey = Main.gateway.publicKey;
         rsaE = new RSAAlgorithm(gwPublicKey);
         Main.gateway.activeRequest = false;
@@ -159,8 +171,13 @@ public class Thermostat implements Runnable {
         while(!Main.gateway.activeRequest) {
             try {
                 temperatureSimulation(this);
-            } catch (InterruptedException e) {
-                System.out.println("******************Interrupted*******************************");
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
             }
            // System.out.println(Thread.currentThread());
         }
@@ -175,7 +192,5 @@ public class Thermostat implements Runnable {
     public void lock(){
         lockdown = true;
     }
-
-
 
     }

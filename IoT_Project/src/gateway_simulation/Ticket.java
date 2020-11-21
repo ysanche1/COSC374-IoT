@@ -33,7 +33,7 @@ public class Ticket {
     private void createTimeStamps()
     {
         timestamp = String.valueOf(System.currentTimeMillis());
-        lifetime = String.valueOf(System.currentTimeMillis() + 2000);
+        lifetime = String.valueOf(System.currentTimeMillis() + 20000);
     }
 
     public void displayContents(){

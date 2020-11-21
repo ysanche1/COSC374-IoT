@@ -7,10 +7,11 @@ import java.awt.event.*;
 public class GatewayAlert extends JDialog {
     private JPanel contentPane;
     private JLabel statusMessage;
+    private JLabel statusMessage2;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int frameX; int frameY;
     public GatewayAlert() {
-        setTitle("Gateway");
+        setTitle("Gateway Alert");
         setContentPane(contentPane);
         pack();
         frameX = (screenSize.width / 2) - (getWidth() / 2);
@@ -22,6 +23,10 @@ public class GatewayAlert extends JDialog {
 
     public void setStatus(String s) {
         statusMessage.setText(s);
+    }
+
+    public void setStatus2(String s) {
+        statusMessage2.setText(s);
     }
 }
 

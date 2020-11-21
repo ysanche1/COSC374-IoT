@@ -1,7 +1,5 @@
 package gateway_simulation;
 
-import java.util.Date;
-
 public class Authenticator{
     String key;
     String clientID;

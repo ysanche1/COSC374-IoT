@@ -3,43 +3,37 @@ package gateway_simulation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
 
-public class ThermostatControl extends JFrame{
+public class ThermostatControl extends JFrame implements Runnable{
     static Thermostat thermostat;
     private JPanel panel1;
     private JButton increaseButton;
     private JButton decreaseButton;
     private JTextField customTempField;
     private JButton customButton;
-    private JLabel header;
     private JLabel updateField;
     private JPanel topPanel;
     private JLabel tempDisplay;
     private JPanel space;
     private JPanel headerPanel;
     private JPanel tempDisplayPanel;
+    private JLabel gatewayNotification;
+    private JButton replayAttackButton;
+    private JButton suspiciousActionButton;
+    private JButton cloudCrash;
     AESAlgorithm aes;
     String aesKey;
-    PrivateKey appPrivateKey;
-    PublicKey appPublicKey;
     PublicKey gatewayPublicKey;
-
-public ThermostatControl(String aesKey, Message m) throws Exception {
-
-        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
-        PublicKey publicKey = rsaK.getPublicKey();
-        PrivateKey privateKey = rsaK.getPrivateKey();
-        RSAAlgorithm rsaD = new RSAAlgorithm(privateKey);
-        this.aesKey = aesKey;
+    AttackSim atk;
+public ThermostatControl(String aesKey, Message replayMessage, Message finalMessage) throws Exception {
+    atk = new AttackSim(replayAttackButton, suspiciousActionButton, cloudCrash, replayMessage);
+    this.aesKey = aesKey;
         aes = new AESAlgorithm(aesKey);
-        gatewayPublicKey = rsaD.strToKey(aes.decrypt(m.pub_key));
-        this.aesKey = aes.decrypt(m.key);
+        gatewayPublicKey = Main.app.rsaK.strToKey(aes.decrypt(finalMessage.pub_key));
+        Main.app.rsaE = new RSAAlgorithm(gatewayPublicKey);
+        this.aesKey = aes.decrypt(finalMessage.key);
         thermostat = new Thermostat();
         String increase = "INCREASE";
         String decrease = "DECREASE";
@@ -71,24 +65,33 @@ public ThermostatControl(String aesKey, Message m) throws Exception {
         }
     });
     customButton.addActionListener(e -> {
+        int customTemp = 0;
         try {
-            newRequest(custom, customTempField.getText());
-        } catch (Exception interruptedException) {
+           customTemp = Integer.parseInt(customTempField.getText());
+           newRequest(custom, String.valueOf(customTemp));
+        }
+        catch (NumberFormatException nfe) {
+            updateField.setText("Non-numeric Value entered");
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     });
 }
     private void newRequest(String command, String custom) throws Exception {
+
         customTempField.setText("");
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
+        m.key = Main.app.rsaE.encrypt(aesKey);
+        m.key = Main.app.rsaE.encrypt(aesKey);
         Main.gateway.relayRequest(m, thermostat);
-
     }
 
     public void receiveResponse(Message m) throws Exception {
         aesKey = aes.decrypt(m.key);
-        Main.atk.aesKey = aesKey;
+        atk.aesKey = aesKey;
+        atk.captureSymmetricKey(aesKey);
         aes = new AESAlgorithm(aesKey);
         if(m.error == true) {
             increaseButton.setEnabled(false);
@@ -98,6 +101,19 @@ public ThermostatControl(String aesKey, Message m) throws Exception {
         }
         else
             updateField.setText(aes.decrypt(m.update));
+    }
+
+    public void subscribe(Message m) throws Exception {
+    tempDisplay.setText(Main.app.rsaD.decrypt(m.update)+"\u00B0");
+    }
+
+    public void setNotification(String s){
+    gatewayNotification.setText(s);
+    }
+
+    @Override
+    public void run() {
+
     }
 }
 
