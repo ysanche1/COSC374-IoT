@@ -41,18 +41,21 @@ public class AttackSim{
         cloudCrash.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-        cloudToggle();
+                JButton c = (JButton)e.getSource();
+                if(Main.tcCloud.cloudOnline){
+                    Main.tcCloud.cloudOnline = false;
+                    c.setText("Restore Cloud");
+                }
+                else {
+                    Main.tcCloud.cloudOnline = true;
+                    c.setText("Crash Cloud");
+                }
             }
+
         });
     }
 
-    private void cloudToggle() {
-        if(Main.tcCloud.cloudOnline){
-            Main.tcCloud.cloudOnline = false;
-        }
-        else
-            Main.tcCloud.cloudOnline = true;
-    }
+
 
     private void attemptLogin() throws Exception {
         if(!ticketCaptured) {
@@ -84,7 +87,7 @@ public class AttackSim{
     void copyMessage(Message m){
         capturedMessage = new Message(m);
         ticketCaptured = true;
-        System.out.println("\n(((Service Granting Ticket Captured by Attacker)))\n");
+        System.out.println("(((Service Granting Ticket Captured by Attacker)))\n");
     }
 
     public void captureSymmetricKey(String aesKey) {

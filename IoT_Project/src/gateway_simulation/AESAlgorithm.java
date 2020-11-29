@@ -90,7 +90,6 @@ public class AESAlgorithm {
                 m.key = decrypt(m.key);
                 m.serverID = decrypt(m.serverID);
                 m.timestamp = decrypt(m.timestamp);
-                //m.ticketRetrieval = decrypt(m.ticketRetrieval);
                 break;
             case 3:
                 decryptTicket(m.ticket);
@@ -100,7 +99,6 @@ public class AESAlgorithm {
                 m.key = decrypt(m.key);
                 m.serverID = decrypt(m.serverID);
                 m.timestamp = decrypt(m.timestamp);
-              //  m.ticketRetrieval = decrypt(m.ticketRetrieval);
                 break;
             case 5:
                 decryptTicket(m.ticket);
@@ -133,7 +131,6 @@ public class AESAlgorithm {
 
 
     public void decryptAuthenticator(Authenticator a) throws Exception {
-        System.out.println(a.clientID);
         a.clientID = decrypt(a.clientID);
         a.clientAddress = decrypt(a.clientAddress);
         a.timestamp = decrypt(a.timestamp);

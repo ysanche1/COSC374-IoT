@@ -1,7 +1,6 @@
 package gateway_simulation;
 
 public class Authenticator{
-    String key;
     String clientID;
     String clientAddress;
     String timestamp;

@@ -25,7 +25,6 @@ public class TGS {
         System.out.println("    ********TICKET RETRIEVED******\n");
         processing.processFast();
         processing.processMed();
-        System.out.println(System.currentTimeMillis());
         if (Long.parseLong(m.ticket.lifetime) < System.currentTimeMillis()  //timestamp check
                 | Long.parseLong(m.ticket.lifetime) < Long.parseLong(m.auth.timestamp)) {
             System.out.println("    EXPIRED TICKET - RE-AUTHORIZATION REQUIRED");
@@ -46,7 +45,6 @@ public class TGS {
         m.ticket = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID);
         m.displayContents();
         m=m.createMessage4(keyC_V, m.serverID, m.ticket); // message 4
-        System.out.println("\nTICKET TIMESTAMP " +m.ticket.timestamp+"\n");
         aes = new AESAlgorithm(keyC_TGS, keyTGS_V);
         System.out.println("	*********ENCRYPTING MESSAGE 4*********\n");
         processing.processLong();processing.processLong();

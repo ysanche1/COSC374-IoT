@@ -7,14 +7,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Thermostat implements Runnable {
     Thread t;
-    final int avgTemp = 60;
-    int targetTemp;
+    final int avgTemp = 70;
     int currentTemp;
     int anchorTemp;
     int timeOfDay;
     double endTime = 0;
     boolean setUp;
-    boolean justSet;
     PublicKey publicKey;
     PrivateKey privateKey;
     PublicKey gwPublicKey;
@@ -22,7 +20,7 @@ public class Thermostat implements Runnable {
     RSAAlgorithm rsaE;
     RSAAlgorithm rsaD;
     Boolean lockdown = false;
-    DeviceCloud activeCloud;
+    DeviceCloud activeCloud = Main.tcCloud;
     public Thermostat() throws NoSuchAlgorithmException {
         timeOfDay = (int) ((System.currentTimeMillis() % 8.64e+7) - 1.8e+7);
         if(timeOfDay <0){
@@ -49,7 +47,7 @@ public class Thermostat implements Runnable {
             currentTemp = ThreadLocalRandom.current().nextInt(avgTemp, avgTemp + 6);
             endTime = 6.48e+7;
         } else if (timeOfDay > 6.48e+7) {
-            currentTemp = ThreadLocalRandom.current().nextInt(avgTemp - 8, avgTemp + 1);
+            currentTemp = ThreadLocalRandom.current().nextInt(avgTemp - 5, avgTemp + 1);
             endTime = 8.64e+7;
         }
         activeCloud.targetTemp = currentTemp;
@@ -58,7 +56,6 @@ public class Thermostat implements Runnable {
     //Reports current temperature to console at regular intervals
     private synchronized void temperatureSimulation(Thermostat t) throws Exception {
         Message r = new Message();
-        checkCloudStatus();
         if (!setUp) {
             setup();
             setUp = true;
@@ -66,17 +63,17 @@ public class Thermostat implements Runnable {
         int uptime = 0;
         while (!Main.gateway.activeRequest & !lockdown) {
             if (currentTemp != activeCloud.targetTemp) {
-                Thread.sleep(500);
+                Thread.sleep(250);
                 if (currentTemp < activeCloud.targetTemp) {
                     currentTemp++;
                     r.update = rsaE.encrypt(String.valueOf(currentTemp));
                     Main.gateway.broker.publish(r);
-                    Thread.sleep(500);
+                    Thread.sleep(250);
                 } else {
                     currentTemp--;
                     r.update = rsaE.encrypt(String.valueOf(currentTemp));
                     Main.gateway.broker.publish(r);
-                    Thread.sleep(500);
+                    Thread.sleep(250);
                 }
             }
             else {
@@ -84,7 +81,6 @@ public class Thermostat implements Runnable {
                 if (t.timeOfDay >= endTime)
                     setup();
                 if (uptime == 10) {
-                    //ThreadLocalRandom.current().nextInt(t.anchorTemp - 1, t.anchorTemp + 1);
                     currentTemp = anchorTemp - 1;
                     uptime = 0;
                 }
@@ -109,7 +105,6 @@ public class Thermostat implements Runnable {
     //Sends response back to gateway encrypted with AES key
     public void receiveRequest(Message m) throws Exception {
         System.out.println("\nRequest at thermostat");
-        checkCloudStatus();
         if (lockdown) {
             Message r = new Message();
             r.update = "Security breach detected - Lockdown in effect";
@@ -118,17 +113,12 @@ public class Thermostat implements Runnable {
         AESAlgorithm aes = new AESAlgorithm(aesKey);
         aes.decryptMessage(m);
         Message r = new Message(m.command, m.custom);
-
         r.key = rsaE.encrypt(aesKey);
         r.command = aes.encrypt(r.command);
         r.custom = aes.encrypt(r.custom);
         Main.tc.atk.captureKey(publicKey);
+        Main.gateway.analyze(m.command, this);
         switch (m.command) {
-             default: {
-                 r.update = aes.encrypt("UNLOCKING FRONT DOOR");
-                Main.gateway.relayResponse(r, this);
-                break;
-            }
             case "INCREASE": {
                 r.update = aes.encrypt("Thermostat set to " + (activeCloud.targetTemp+1));
                 Main.gateway.relayResponse(r, this);
@@ -150,16 +140,8 @@ public class Thermostat implements Runnable {
         }
     }
 
-    private void checkCloudStatus() {
-        if (Main.tcCloud.cloudOnline) {
-            activeCloud = Main.tcCloud;
-        }
-        else activeCloud = Main.gateway.cloudBackup;
-    }
-
     //used to reset the thread after requests
     public void main(){
-        checkCloudStatus();
         gwPublicKey = Main.gateway.publicKey;
         rsaE = new RSAAlgorithm(gwPublicKey);
         Main.gateway.activeRequest = false;
@@ -167,7 +149,6 @@ public class Thermostat implements Runnable {
         t.start();
     }
     public  void run() {
- //       System.out.println(Thread.currentThread());
         while(!Main.gateway.activeRequest) {
             try {
                 temperatureSimulation(this);
@@ -179,11 +160,9 @@ public class Thermostat implements Runnable {
                     interruptedException.printStackTrace();
                 }
             }
-           // System.out.println(Thread.currentThread());
         }
 
     }
-
 
     public PublicKey getPublicKey() {
         return publicKey;

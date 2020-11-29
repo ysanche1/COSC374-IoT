@@ -7,27 +7,29 @@ import java.security.PublicKey;
 
 
 public class ThermostatControl extends JFrame implements Runnable{
+    JPanel main_panel;
+    JPanel top_panel;
+    JPanel space;
+    JPanel headerPanel;
+    JLabel updateField;
+    JLabel tempDisplay;
+    JButton increase_button;
+    JButton decrease_button;
+    JTextField custom_temp_field;
+    JButton custom_button;
+    JLabel gateway_notification;
+    JButton cloudCrash;
+    JButton suspiciousActionButton;
+    JButton replayAttackButton;
+    private JPanel custom_temp_panel;
     static Thermostat thermostat;
-    private JPanel panel1;
-    private JButton increaseButton;
-    private JButton decreaseButton;
-    private JTextField customTempField;
-    private JButton customButton;
-    private JLabel updateField;
-    private JPanel topPanel;
-    private JLabel tempDisplay;
-    private JPanel space;
-    private JPanel headerPanel;
-    private JPanel tempDisplayPanel;
-    private JLabel gatewayNotification;
-    private JButton replayAttackButton;
-    private JButton suspiciousActionButton;
-    private JButton cloudCrash;
     AESAlgorithm aes;
     String aesKey;
     PublicKey gatewayPublicKey;
     AttackSim atk;
-public ThermostatControl(String aesKey, Message replayMessage, Message finalMessage) throws Exception {
+
+
+public void initialize(String user, String aesKey, Message replayMessage, Message finalMessage) throws Exception {
     atk = new AttackSim(replayAttackButton, suspiciousActionButton, cloudCrash, replayMessage);
     this.aesKey = aesKey;
         aes = new AESAlgorithm(aesKey);
@@ -39,35 +41,35 @@ public ThermostatControl(String aesKey, Message replayMessage, Message finalMess
         String decrease = "DECREASE";
         String custom = "CUSTOM";
         Main.gateway.initialize(thermostat);
-    setContentPane(panel1);
+    setContentPane(main_panel);
     setTitle("Thermostat Controller");
     setResizable(false);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     pack();
-    getRootPane().setDefaultButton(customButton);
+    getRootPane().setDefaultButton(custom_button);
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // put the window in a nice spot
     int frameX = (screenSize.width / 2) - (getWidth() / 2);             //
     int frameY = (screenSize.height / 2) - (getHeight());;                                 //
     setLocation(frameX, frameY);
     setVisible(true);
     thermostat.main();
-    increaseButton.addActionListener(e -> {
+    increase_button.addActionListener(e -> {
         try {
             newRequest(increase, "");
         } catch (Exception interruptedException) {
             interruptedException.printStackTrace();
         }
     });
-    decreaseButton.addActionListener(e -> {
+    decrease_button.addActionListener(e -> {
         try {
             newRequest(decrease,"");
         } catch (Exception interruptedException) {
         }
     });
-    customButton.addActionListener(e -> {
+    custom_button.addActionListener(e -> {
         int customTemp = 0;
         try {
-           customTemp = Integer.parseInt(customTempField.getText());
+           customTemp = Integer.parseInt(custom_temp_field.getText());
            newRequest(custom, String.valueOf(customTemp));
         }
         catch (NumberFormatException nfe) {
@@ -79,7 +81,7 @@ public ThermostatControl(String aesKey, Message replayMessage, Message finalMess
 }
     private void newRequest(String command, String custom) throws Exception {
 
-        customTempField.setText("");
+        custom_temp_field.setText("");
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
@@ -89,14 +91,14 @@ public ThermostatControl(String aesKey, Message replayMessage, Message finalMess
     }
 
     public void receiveResponse(Message m) throws Exception {
-        aesKey = aes.decrypt(m.key);
+        aesKey = Main.app.rsaD.decrypt(m.key);
         atk.aesKey = aesKey;
         atk.captureSymmetricKey(aesKey);
         aes = new AESAlgorithm(aesKey);
         if(m.error == true) {
-            increaseButton.setEnabled(false);
-            decreaseButton.setEnabled(false);
-            customButton.setEnabled(false);
+            increase_button.setEnabled(false);
+            decrease_button.setEnabled(false);
+            custom_button.setEnabled(false);
             updateField.setText(aes.decrypt(m.update));
         }
         else
@@ -108,7 +110,7 @@ public ThermostatControl(String aesKey, Message replayMessage, Message finalMess
     }
 
     public void setNotification(String s){
-    gatewayNotification.setText(s);
+    gateway_notification.setText(s);
     }
 
     @Override
