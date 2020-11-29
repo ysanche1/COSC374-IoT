@@ -4,26 +4,40 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+// Security alerts are displayed in this window
+
 public class GatewayAlert extends JDialog {
     private JPanel contentPane;
     private JLabel statusMessage;
+    private JLabel statusMessage2;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int frameX; int frameY;
+    int frameX;
+    int frameY;
+
     public GatewayAlert() {
-        setTitle("Gateway");
+        setTitle("Gateway Alert");
         setContentPane(contentPane);
         pack();
         frameX = (screenSize.width / 2) - (getWidth() / 2);
         frameY = (screenSize.height / 2);
         setLocation(frameX, frameY);
-
-        setVisible(true);
     }
 
     public void setStatus(String s) {
         statusMessage.setText(s);
+        pack();
+    }
+
+    //for ticket expiration time
+    public void setStatus2(String s) {
+        statusMessage2.setText(s);
+        pack();
     }
 }
+
+
+
+
 
 
 

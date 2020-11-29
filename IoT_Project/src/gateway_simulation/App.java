@@ -1,37 +1,32 @@
 package gateway_simulation;
 
-import java.beans.PropertyChangeSupport;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class App implements Runnable {
+//This class holds all of the smart phone asymmetric keys and algorithms
+//creates login window which begins the process of accessing the gateway
+
+public class App{
     Login login;
     Kerberos kdc;
-    PublicKey gwPublicKey;
-    boolean loggedIn;
+    PublicKey appPublickKey;
+    PrivateKey appPrivateKey;
+    RSAAlgorithm rsaE;
+    RSAAlgorithm rsaD;
+    RSAKeyPairGenerator rsaK;
 
     public App(Kerberos kdc) throws NoSuchAlgorithmException {
+
+        rsaK = new RSAKeyPairGenerator();
+        appPublickKey = rsaK.getPublicKey();
+        appPrivateKey = rsaK.getPrivateKey();
+        rsaD = new RSAAlgorithm(appPrivateKey);
         this.kdc = kdc;
         login = new Login(kdc);
     }
 
 
-
-
-    @Override
-    public void run() {
-        System.out.println("App Verifying USER");
-        while(!loggedIn)
-        {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        }
     }
 
 

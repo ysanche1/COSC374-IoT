@@ -3,101 +3,119 @@ package gateway_simulation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
 
-public class ThermostatControl extends JFrame{
+public class ThermostatControl extends JFrame implements Runnable{
+    JPanel main_panel;
+    JPanel top_panel;
+    JPanel space;
+    JPanel headerPanel;
+    JLabel updateField;
+    JLabel tempDisplay;
+    JButton increase_button;
+    JButton decrease_button;
+    JTextField custom_temp_field;
+    JButton custom_button;
+    JLabel gateway_notification;
+    JButton cloudCrash;
+    JButton suspiciousActionButton;
+    JButton replayAttackButton;
+    private JPanel custom_temp_panel;
     static Thermostat thermostat;
-    private JPanel panel1;
-    private JButton increaseButton;
-    private JButton decreaseButton;
-    private JTextField customTempField;
-    private JButton customButton;
-    private JLabel header;
-    private JLabel updateField;
-    private JPanel topPanel;
-    private JLabel tempDisplay;
-    private JPanel space;
-    private JPanel headerPanel;
-    private JPanel tempDisplayPanel;
     AESAlgorithm aes;
     String aesKey;
-    PrivateKey appPrivateKey;
-    PublicKey appPublicKey;
     PublicKey gatewayPublicKey;
+    AttackSim atk;
 
-public ThermostatControl(String aesKey, Message m) throws Exception {
 
-        RSAKeyPairGenerator rsaK = new RSAKeyPairGenerator();
-        PublicKey publicKey = rsaK.getPublicKey();
-        PrivateKey privateKey = rsaK.getPrivateKey();
-        RSAAlgorithm rsaD = new RSAAlgorithm(privateKey);
-        this.aesKey = aesKey;
+public void initialize(String user, String aesKey, Message replayMessage, Message finalMessage) throws Exception {
+    atk = new AttackSim(replayAttackButton, suspiciousActionButton, cloudCrash, replayMessage);
+    this.aesKey = aesKey;
         aes = new AESAlgorithm(aesKey);
-        gatewayPublicKey = rsaD.strToKey(aes.decrypt(m.pub_key));
-        this.aesKey = aes.decrypt(m.key);
+        gatewayPublicKey = Main.app.rsaK.strToKey(aes.decrypt(finalMessage.pub_key));
+        Main.app.rsaE = new RSAAlgorithm(gatewayPublicKey);
+        this.aesKey = aes.decrypt(finalMessage.key);
         thermostat = new Thermostat();
         String increase = "INCREASE";
         String decrease = "DECREASE";
         String custom = "CUSTOM";
         Main.gateway.initialize(thermostat);
-    setContentPane(panel1);
+    setContentPane(main_panel);
     setTitle("Thermostat Controller");
     setResizable(false);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     pack();
-    getRootPane().setDefaultButton(customButton);
+    getRootPane().setDefaultButton(custom_button);
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // put the window in a nice spot
     int frameX = (screenSize.width / 2) - (getWidth() / 2);             //
     int frameY = (screenSize.height / 2) - (getHeight());;                                 //
     setLocation(frameX, frameY);
     setVisible(true);
     thermostat.main();
-    increaseButton.addActionListener(e -> {
+    increase_button.addActionListener(e -> {
         try {
             newRequest(increase, "");
         } catch (Exception interruptedException) {
             interruptedException.printStackTrace();
         }
     });
-    decreaseButton.addActionListener(e -> {
+    decrease_button.addActionListener(e -> {
         try {
             newRequest(decrease,"");
         } catch (Exception interruptedException) {
         }
     });
-    customButton.addActionListener(e -> {
+    custom_button.addActionListener(e -> {
+        int customTemp = 0;
         try {
-            newRequest(custom, customTempField.getText());
-        } catch (Exception interruptedException) {
+           customTemp = Integer.parseInt(custom_temp_field.getText());
+           newRequest(custom, String.valueOf(customTemp));
+        }
+        catch (NumberFormatException nfe) {
+            updateField.setText("Non-numeric Value entered");
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     });
 }
     private void newRequest(String command, String custom) throws Exception {
-        customTempField.setText("");
+
+        custom_temp_field.setText("");
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
         aes.encryptMessage(m);
+        m.key = Main.app.rsaE.encrypt(aesKey);
+        m.key = Main.app.rsaE.encrypt(aesKey);
         Main.gateway.relayRequest(m, thermostat);
-
     }
 
     public void receiveResponse(Message m) throws Exception {
-        aesKey = aes.decrypt(m.key);
-        Main.atk.aesKey = aesKey;
+        aesKey = Main.app.rsaD.decrypt(m.key);
+        atk.aesKey = aesKey;
+        atk.captureSymmetricKey(aesKey);
         aes = new AESAlgorithm(aesKey);
         if(m.error == true) {
-            increaseButton.setEnabled(false);
-            decreaseButton.setEnabled(false);
-            customButton.setEnabled(false);
+            increase_button.setEnabled(false);
+            decrease_button.setEnabled(false);
+            custom_button.setEnabled(false);
             updateField.setText(aes.decrypt(m.update));
         }
         else
             updateField.setText(aes.decrypt(m.update));
+    }
+
+    public void subscribe(Message m) throws Exception {
+    tempDisplay.setText(Main.app.rsaD.decrypt(m.update)+"\u00B0");
+    }
+
+    public void setNotification(String s){
+    gateway_notification.setText(s);
+    }
+
+    @Override
+    public void run() {
+
     }
 }
 

@@ -4,24 +4,32 @@ import java.util.Date;
 
 public class AuthServer {
     String clientID = "user";     //database of all registered users
-    String password = "password"; // and their passwords
-    String padding = "12345678";  //AES key needs to be 16 bits and "password" is 8 letters
+    String password; // and their passwords
     AESAlgorithm aes;
     String tgsID = "TGS374";  //ID of the TGS, used in verifying message 1
     String keyAS_TGS = "TGS_AS_SHAREDKEY"; //secret key shared with TGS
     String keyC_TGS = "CLIENT_TGS_KEY++"; //secret key to be shared by client and TGS
-    Message authMessage;
     Ticket ticketGrantingTicket; //ticket that client will show to TGS to receive the service-granting ticket
-    String timestamp;
-    String lifetime;
     Date date; //for creating timestamps
     int attempts = 3; //for login lockout
     boolean attemptsRemaining = true;//^
-
+    UserDB userDB;
 
     public AuthServer() {
+        userDB = new UserDB();
         System.out.println("AS Created");
         processing.processMed();
+    }
+
+    private void padPassword(){
+        int pl = password.length();  //key needs to be 16 bytes, 1234567890 repeating as padding
+        int j = 1;
+        for (int i = 1; i <= 16 - pl; i++) {
+            if (j == 10)
+                j = 0;
+            password += j;
+            j++;
+        }
     }
 
     //deals with message 2 from client
@@ -31,12 +39,13 @@ public class AuthServer {
             attemptsRemaining = false;
             failureNotification("locked", m);
         } else{
-                if (m.clientID.equals(this.clientID) == false) { //if not, check userid
+                password = userDB.checkUserDB(m.clientID);
+                if (password.equals("ERROR")) { //if not, retrieve password if user ID found in database
                     processing.processMed();
                     failureNotification("clientID", m);
                 } else{
                         System.out.print("	CLIENT ID OK	");                    processing.processMed();
-                        if (m.serverID.equals(this.tgsID) == false) { //check the id of the target TGS
+                        if (!m.serverID.equals(this.tgsID)) { //check the id of the target TGS
                             processing.processMed();
                             failureNotification("tgsID", m);
                         }
@@ -52,7 +61,8 @@ public class AuthServer {
         date = new Date();
         ticketGrantingTicket = new Ticket(keyC_TGS, clientID, "CLIENT_ADDRESS", tgsID);
         m = m.createMessage2(keyC_TGS, tgsID, ticketGrantingTicket);
-        aes = new AESAlgorithm(password + padding, keyAS_TGS);
+        padPassword();
+        aes = new AESAlgorithm(password, keyAS_TGS);
         System.out.println("	*********ENCRYPTING MESSAGE 2*********\n");
         processing.processLong();        processing.processLong();
         aes.encryptMessage(m);

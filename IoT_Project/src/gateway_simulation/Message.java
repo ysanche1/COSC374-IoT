@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Observable;
 
-public class Message implements Cloneable{
+public class Message implements Runnable{
     public String pub_key;
     protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
@@ -27,12 +27,6 @@ public class Message implements Cloneable{
     String custom;
     String update;
 
-    public Object clone() throws
-            CloneNotSupportedException
-    {
-        Message cloned = (Message)super.clone();
-        return cloned;
-    }
 
     public Message(){}
 
@@ -110,6 +104,7 @@ public class Message implements Cloneable{
 
     private void createtimeStamps() {
         timestamp = String.valueOf(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
         lifetime = String.valueOf(System.currentTimeMillis() + 30000);
     }
 
@@ -180,6 +175,11 @@ public class Message implements Cloneable{
         m.containsAuth = true;
         m.displayContents();
         return m;
+    }
+
+    @Override
+    public void run() {
+        displayContents();
     }
 
  /*   public Message createPublicKeyMessage(PublicKey key) {

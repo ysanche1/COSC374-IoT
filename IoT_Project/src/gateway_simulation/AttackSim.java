@@ -8,24 +8,16 @@ import java.security.PublicKey;
 
 import static java.lang.Integer.valueOf;
 
-public class AttackSim extends JFrame {
+public class AttackSim{
     public String aesKey;
     public PublicKey thermPublicKey;
-    private JButton suspiciousActionButton;
-    private JPanel panel1;
-    private JButton replayAttackButton;
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int frameX; int frameY;
     Message capturedMessage;
+    Boolean ticketCaptured = false;
+    Boolean keyCaptured = false;
     Message confirmation;
-    public AttackSim() {
-        setTitle("Gateway");
-        setContentPane(panel1);
-        pack();
-        frameX = (screenSize.width / 2) - (getWidth() / 2);
-        frameY = (screenSize.height / 2);
-        setLocation(frameX, frameY);
-        setVisible(true);
+
+    public AttackSim(JButton replayAttackButton, JButton suspiciousActionButton, JButton cloudCrash, Message capturedMessage) {
+        copyMessage(capturedMessage);
         replayAttackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,37 +32,70 @@ public class AttackSim extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    attemptPortScan();
+                    attemptDoorUnlock();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         });
+        cloudCrash.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton c = (JButton)e.getSource();
+                if(Main.tcCloud.cloudOnline){
+                    Main.tcCloud.cloudOnline = false;
+                    c.setText("Restore Cloud");
+                }
+                else {
+                    Main.tcCloud.cloudOnline = true;
+                    c.setText("Crash Cloud");
+                }
+            }
+
+        });
     }
+
+
 
     private void attemptLogin() throws Exception {
-        System.out.println("\n(((Attempting Login Using Captured Ticket)))");
-        confirmation = Main.gateway.receiveSGT(capturedMessage);
-        confirmation.displayContents();
+        if(!ticketCaptured) {
+            System.out.println("(((SGT not captured)))");
+        }
+        else {
+            System.out.println("\n(((Attempting Login Using Captured Ticket)))");
+            confirmation = Main.gateway.receiveSGT(capturedMessage);
+            Thread t = new Thread(confirmation);
+            t.start();
+        }
     }
 
-    public void capture(Message m) throws CloneNotSupportedException {
-        capturedMessage =  (Message) m.clone();
-
-    }
-
-    private void attemptPortScan() throws Exception {
-        System.out.println("\n(((Attempting to unlock door)))");
-        Message portScan = new Message("UNLOCK DOOR", "");
-        RSAAlgorithm rsa = new RSAAlgorithm(thermPublicKey);
-        AESAlgorithm aes = new AESAlgorithm(aesKey);
-        portScan.command = aes.encrypt(portScan.command);
-        portScan.key = rsa.encrypt(aesKey);
-        ThermostatControl.thermostat.receiveRequest(portScan);
+    private void attemptDoorUnlock() throws Exception {
+        if(!keyCaptured) {
+            System.out.println("(((AES + RSA keys not captured)))");
+        }
+        else {
+            System.out.println("\n(((Attempting to unlock door)))");
+            Message unlock_door = new Message("UNLOCK DOOR", "");
+            RSAAlgorithm rsa = new RSAAlgorithm(thermPublicKey);
+            AESAlgorithm aes = new AESAlgorithm(aesKey);
+            unlock_door.command = aes.encrypt(unlock_door.command);
+            unlock_door.key = rsa.encrypt(aesKey);
+            ThermostatControl.thermostat.receiveRequest(unlock_door);
+        }
     }
 
     void copyMessage(Message m){
         capturedMessage = new Message(m);
-        System.out.println("\n(((Service Granting Ticket Captured by Attacker)))");
+        ticketCaptured = true;
+        System.out.println("(((Service Granting Ticket Captured by Attacker)))\n");
+    }
+
+    public void captureSymmetricKey(String aesKey) {
+        this.aesKey = aesKey;
+        keyCaptured = true;
+    }
+
+    public void captureKey(PublicKey publicKey) {
+        thermPublicKey = publicKey;
     }
 }

@@ -45,7 +45,6 @@ public class TGS {
         m.ticket = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID);
         m.displayContents();
         m=m.createMessage4(keyC_V, m.serverID, m.ticket); // message 4
-        System.out.println("\nTICKET TIMESTAMP " +m.ticket.timestamp+"\n");
         aes = new AESAlgorithm(keyC_TGS, keyTGS_V);
         System.out.println("	*********ENCRYPTING MESSAGE 4*********\n");
         processing.processLong();processing.processLong();

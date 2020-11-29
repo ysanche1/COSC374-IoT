@@ -1,11 +1,7 @@
 package gateway_simulation;
 
-import javax.naming.event.NamingEvent;
-import javax.naming.event.NamingExceptionEvent;
-import javax.naming.event.ObjectChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.Date;
@@ -18,10 +14,6 @@ public class Kerberos implements PropertyChangeListener {
     RSAKeyPairGenerator rsa;
     PublicKey gatewayPK;
     public Kerberos(Gateway gateway) throws NoSuchAlgorithmException {
-        rsa = new RSAKeyPairGenerator();
-        gatewayPK = rsa.getPublicKey();
-        gateway.publicKey = gatewayPK;
-        gateway.privateKey= rsa.getPrivateKey();
 
         System.out.println("Creating Kerberos Server");
         processing.processLong();

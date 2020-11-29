@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 public class RSAKeyPairGenerator {
     private PrivateKey privateKey;
@@ -35,6 +38,20 @@ public class RSAKeyPairGenerator {
 
     public PublicKey getPublicKey() {
         return this.publicKey;
+    }
+
+    public String keyToStr(PublicKey key){
+        byte[] byte_pubkey = key.getEncoded();
+        String str_key = Base64.getEncoder().encodeToString(byte_pubkey);
+// String str_key = new String(byte_pubkey,Charset.);
+        return str_key;
+    }
+
+    public PublicKey strToKey(String key) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] byte_pubkey  = Base64.getDecoder().decode(key);
+        KeyFactory factory = KeyFactory.getInstance("RSA");
+        PublicKey pk =  factory.generatePublic(new X509EncodedKeySpec(byte_pubkey));
+        return pk;
     }
 
 }

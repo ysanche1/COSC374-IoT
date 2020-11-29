@@ -1,9 +1,8 @@
 package gateway_simulation;
 
 import javax.swing.*;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
+
+//Class representing tickets
 
 public class Ticket {
     String key;
@@ -12,13 +11,10 @@ public class Ticket {
     String serverID;
     String timestamp;
     String lifetime;
-    Boolean isSGT = false;
-    Date date;
+
     public Ticket(String key, String clientID, String clientAD, String serverID){
         this.key = key; this.clientID = clientID; this.clientAD = clientAD;
         this.serverID = serverID; createTimeStamps();
-        System.out.println(Thread.currentThread());
-        System.out.println("\nTICKET TIMESTAMP" +timestamp+"\n");
     }
 
     public Ticket(Ticket ticket) {
@@ -33,7 +29,7 @@ public class Ticket {
     private void createTimeStamps()
     {
         timestamp = String.valueOf(System.currentTimeMillis());
-        lifetime = String.valueOf(System.currentTimeMillis() + 2000);
+        lifetime = String.valueOf(System.currentTimeMillis() + 20000);
     }
 
     public void displayContents(){
