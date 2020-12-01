@@ -18,6 +18,10 @@ public class GatewayAlert extends JDialog {
         setTitle("Gateway Alert");
         setContentPane(contentPane);
         pack();
+        place();
+    }
+
+    private void place() {
         frameX = (screenSize.width / 2) - (getWidth() / 2);
         frameY = (screenSize.height / 2);
         setLocation(frameX, frameY);
@@ -26,12 +30,14 @@ public class GatewayAlert extends JDialog {
     public void setStatus(String s) {
         statusMessage.setText(s);
         pack();
+        place();
     }
 
     //for ticket expiration time
     public void setStatus2(String s) {
         statusMessage2.setText(s);
         pack();
+        place();
     }
 }
 

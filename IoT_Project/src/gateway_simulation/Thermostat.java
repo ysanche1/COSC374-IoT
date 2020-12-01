@@ -30,8 +30,7 @@ public class Thermostat implements Runnable {
         publicKey = rsaKP.getPublicKey();
         privateKey = rsaKP.getPrivateKey();
         rsaD = new RSAAlgorithm(privateKey);
-        System.out.println("Thermostat Running");
-        //     System.out.println("THERMOSTAT I JUST MADE = "+System.identityHashCode(this));
+        System.out.println("    Thermostat Running.....\n");
     }
 
     // Function that sets the temperature
@@ -63,6 +62,7 @@ public class Thermostat implements Runnable {
         int uptime = 0;
         while (!Main.gateway.activeRequest & !lockdown) {
             if (currentTemp != activeCloud.targetTemp) {
+                uptime = 0;
                 Thread.sleep(250);
                 if (currentTemp < activeCloud.targetTemp) {
                     currentTemp++;
@@ -81,7 +81,7 @@ public class Thermostat implements Runnable {
                 if (t.timeOfDay >= endTime)
                     setup();
                 if (uptime == 10) {
-                    currentTemp = anchorTemp - 1;
+                    currentTemp = ThreadLocalRandom.current().nextInt(anchorTemp - 1, anchorTemp+1 );
                     uptime = 0;
                 }
                 uptime++;
@@ -89,14 +89,6 @@ public class Thermostat implements Runnable {
                 Main.gateway.broker.publish(r);
                 currentTemp = anchorTemp;
                 Thread.sleep(500);
-                if (!Main.gateway.activeRequest)
-                    Thread.sleep(500);
-                if (!Main.gateway.activeRequest)
-                    Thread.sleep(500);
-                if (!Main.gateway.activeRequest)
-                    Thread.sleep(500);
-                if (!Main.gateway.activeRequest)
-                    Thread.sleep(500);
             }
         }
     }
@@ -104,10 +96,12 @@ public class Thermostat implements Runnable {
     //Receives request AES encrypted message, decrypts AES key using RSA private key, decrypts message with recovered key,
     //Sends response back to gateway encrypted with AES key
     public void receiveRequest(Message m) throws Exception {
-        System.out.println("\nRequest at thermostat");
+        System.out.println("    Request at thermostat\n");
         if (lockdown) {
             Message r = new Message();
-            r.update = "Security breach detected - Lockdown in effect";
+            r.update = "Security alert - Lockdown in effect";
+            Main.gateway.relayResponse(r, this);
+            return;
         }
         aesKey = rsaD.decrypt(m.key);
         AESAlgorithm aes = new AESAlgorithm(aesKey);
@@ -119,19 +113,19 @@ public class Thermostat implements Runnable {
         Main.tc.atk.captureKey(publicKey);
         Main.gateway.analyze(m.command, this);
         switch (m.command) {
-            case "INCREASE": {
+            case "sendEvent(name: set_target_temp value: increase)": {
                 r.update = aes.encrypt("Thermostat set to " + (activeCloud.targetTemp+1));
                 Main.gateway.relayResponse(r, this);
                 activeCloud.increase();
                 break;
             }
-            case "DECREASE": {
+            case "sendEvent(name: set_target_temp value: decrease)": {
                 r.update = aes.encrypt("Thermostat set to " + (activeCloud.targetTemp-1));
                 Main.gateway.relayResponse(r, this);
                 activeCloud.decrease();
                 break;
             }
-            case "CUSTOM": {
+            case "sendEvent(name: set_target_temp value: custom)": {
                 r.update = aes.encrypt("Thermostat set to " + m.custom);
                 Main.gateway.relayResponse(r, this);
                 activeCloud.setTemperature(Integer.parseInt(m.custom));
@@ -144,7 +138,6 @@ public class Thermostat implements Runnable {
     public void main(){
         gwPublicKey = Main.gateway.publicKey;
         rsaE = new RSAAlgorithm(gwPublicKey);
-        Main.gateway.activeRequest = false;
         t = new Thread(this,"THERMOTHREAD");
         t.start();
     }
@@ -154,11 +147,7 @@ public class Thermostat implements Runnable {
                 temperatureSimulation(this);
             } catch (Exception e) {
                 e.printStackTrace();
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
+
             }
         }
 

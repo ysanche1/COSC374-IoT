@@ -2,8 +2,8 @@ package gateway_simulation;
 
 // Represents vendor cloud associated with thermostat.
 
-public class ThermostatCloud extends DeviceCloud {
+public class ProviderCloud extends DeviceCloud {
     public void soundOff(){
-        System.out.println("Request handled by thermostat cloud");
+        System.out.println("  Request handled by provider cloud\n");
     }
 }

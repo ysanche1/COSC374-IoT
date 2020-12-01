@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Observable;
 
-public class Message implements Runnable{
+public class Message implements Runnable {
     public String pub_key;
     protected PropertyChangeSupport propertyChangeSupport;
     int mNum;
@@ -28,7 +28,8 @@ public class Message implements Runnable{
     String update;
 
 
-    public Message(){}
+    public Message() {
+    }
 
     public Message(String update) {
         this.update = update;
@@ -46,6 +47,7 @@ public class Message implements Runnable{
         this.ticket = new Ticket(m.ticket);
     }*/
 
+    // copy message 4
     public Message(Message m) {
         this.mNum = m.mNum;
         this.ticket = new Ticket(m.ticket);
@@ -53,8 +55,9 @@ public class Message implements Runnable{
         this.pub_key = m.pub_key;
     }
 
+    // Intrusion detection message
     public Message(boolean b) {
-        update = "Possible intrusion detected - device quarantined";
+        update = "Possible intrusion detected - Device quarantined";
         error = b;
     }
 
@@ -104,7 +107,6 @@ public class Message implements Runnable{
 
     private void createtimeStamps() {
         timestamp = String.valueOf(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
         lifetime = String.valueOf(System.currentTimeMillis() + 30000);
     }
 
@@ -181,23 +183,4 @@ public class Message implements Runnable{
     public void run() {
         displayContents();
     }
-
- /*   public Message createPublicKeyMessage(PublicKey key) {
-        this.clear();
-        mNum = 6;
-        this.pk = key;
-        displayContents();
-        return
-    }*/
 }
-
-   /* public void newMessage(String clientID, String serverID, String timestamp, Message m) {
-
-
-            case 2:        propertyChangeSupport.firePropertyChange("M2",oldmNum, mNum); break;
-            case 3:        propertyChangeSupport.firePropertyChange("M3",oldmNum, mNum); break;
-            case 4:        propertyChangeSupport.firePropertyChange("M4",oldmNum, mNum); break;
-            case 5:        propertyChangeSupport.firePropertyChange("M5",oldmNum, mNum); break;
-        }
-    }*/
-

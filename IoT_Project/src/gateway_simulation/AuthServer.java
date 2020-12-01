@@ -2,8 +2,7 @@ package gateway_simulation;
 
 import java.util.Date;
 
-public class AuthServer {
-    String clientID = "user";     //database of all registered users
+public class AuthServer { //database of all registered users
     String password; // and their passwords
     AESAlgorithm aes;
     String tgsID = "TGS374";  //ID of the TGS, used in verifying message 1
@@ -11,7 +10,7 @@ public class AuthServer {
     String keyC_TGS = "CLIENT_TGS_KEY++"; //secret key to be shared by client and TGS
     Ticket ticketGrantingTicket; //ticket that client will show to TGS to receive the service-granting ticket
     Date date; //for creating timestamps
-    int attempts = 3; //for login lockout
+    int attempts = 2; //for login lockout
     boolean attemptsRemaining = true;//^
     UserDB userDB;
 
@@ -44,12 +43,12 @@ public class AuthServer {
                     processing.processMed();
                     failureNotification("clientID", m);
                 } else{
-                        System.out.print("	CLIENT ID OK	");                    processing.processMed();
+                        System.out.print("       CLIENT ID OK");                    processing.processMed();
                         if (!m.serverID.equals(this.tgsID)) { //check the id of the target TGS
                             processing.processMed();
                             failureNotification("tgsID", m);
                         }
-                        else System.out.print("	TGS ID OK	\n\n");                    processing.processMed();
+                        else System.out.print("	       TGS ID OK	\n\n");                    processing.processMed();
                         m =createReply(m);
                     }
             }
@@ -57,21 +56,21 @@ public class AuthServer {
     }
 
     public Message createReply(Message m) throws Exception {
-        System.out.println("	******PRE-AUTH PASSED*********\n");
+        System.out.println("	*********** PRE-AUTH PASSED **********\n");
         date = new Date();
-        ticketGrantingTicket = new Ticket(keyC_TGS, clientID, "CLIENT_ADDRESS", tgsID);
+        ticketGrantingTicket = new Ticket(keyC_TGS, m.clientID, "CLIENT_ADDRESS", tgsID);
         m = m.createMessage2(keyC_TGS, tgsID, ticketGrantingTicket);
         padPassword();
         aes = new AESAlgorithm(password, keyAS_TGS);
-        System.out.println("	*********ENCRYPTING MESSAGE 2*********\n");
+        System.out.println("	********* ENCRYPTING MESSAGE 2 *********\n");
         processing.processLong();        processing.processLong();
         aes.encryptMessage(m);
-        System.out.println("	*********MESSAGE 2 ENCRYPTED**********\n");
+        System.out.println("	********* MESSAGE 2 ENCRYPTED **********\n");
         processing.processMed();
         m.displayContents();
         processing.processMed();
 
-        System.out.println("	*********MESSAGE 2 SENT**********\n");
+        System.out.println("	********* MESSAGE 2 SENT **********\n");
         processing.processLong();
         return m;
     }

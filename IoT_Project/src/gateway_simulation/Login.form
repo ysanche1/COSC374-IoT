@@ -15,7 +15,7 @@
           <gridbag top="10" left="0" bottom="0" right="20" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="passphrase"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="91059" class="javax.swing.JButton" binding="loginButton">
@@ -53,7 +53,7 @@
           <gridbag top="0" left="0" bottom="0" right="20" weightx="1.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="bstobby"/>
+          <text value=""/>
         </properties>
       </component>
       <grid id="28142" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

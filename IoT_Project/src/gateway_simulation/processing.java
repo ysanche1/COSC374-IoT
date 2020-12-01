@@ -21,7 +21,7 @@ public class processing {
     static void processFast()
     {
         try{
-            Thread.sleep(150);
+ //           Thread.sleep(150);
         }catch(Exception e){}
     }
 }
