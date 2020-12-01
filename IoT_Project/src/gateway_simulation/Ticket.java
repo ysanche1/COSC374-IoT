@@ -29,7 +29,7 @@ public class Ticket {
     private void createTimeStamps()
     {
         timestamp = String.valueOf(System.currentTimeMillis());
-        lifetime = String.valueOf(System.currentTimeMillis() + 20000);
+        lifetime = String.valueOf(System.currentTimeMillis() + 30000);
     }
 
     public void displayContents(){
@@ -40,19 +40,5 @@ public class Ticket {
         System.out.print("  serverID = "+serverID+" ||");   processing.processMed();
         System.out.print(" timestamp = "+timestamp+" ||");   processing.processMed();
         System.out.print(" lifetime = "+lifetime+" ||\n\n");processing.processMed();
-    }
-    public void displayContents(JLabel jl){
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Ticket contents :\n  ");
-        sb.append("  Key = "+key+" ||");
-        sb.append(" clientID = "+clientID+" ||");
-        sb.append(" clientAD = "+clientAD+" ||\n");
-        sb.append("  serverID = "+serverID+" ||");
-        sb.append(" timestamp = "+timestamp+" ||");
-        sb.append(" lifetime = "+lifetime+" ||\n\n");
-
-        jl.setText(sb.toString());
     }
 }

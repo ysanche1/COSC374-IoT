@@ -16,11 +16,11 @@ public class CloudMonitor implements Runnable{
         if(Main.gateway.loggedIn) {
             if (Main.tcCloud.cloudOnline) {
                 Main.tc.thermostat.activeCloud = Main.tcCloud;
-                Main.tc.setNotification("Cloud Backup: Inactive");
+                Main.tc.setNotification("Cloud Status: Online");
             } else {
                 cloudBackup.targetTemp = Main.tc.thermostat.activeCloud.targetTemp;
                 Main.tc.thermostat.activeCloud = cloudBackup;
-                Main.tc.setNotification("Cloud Backup: Active");
+                Main.tc.setNotification("Cloud Status: Offline");
             }
         }
     }

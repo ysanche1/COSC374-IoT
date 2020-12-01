@@ -27,7 +27,7 @@ public class ThermostatControl extends JFrame implements Runnable{
     String aesKey;
     PublicKey gatewayPublicKey;
     AttackSim atk;
-
+    Boolean lockdown = false;
 
 public void initialize(String user, String aesKey, Message replayMessage, Message finalMessage) throws Exception {
     atk = new AttackSim(replayAttackButton, suspiciousActionButton, cloudCrash, replayMessage);
@@ -37,9 +37,9 @@ public void initialize(String user, String aesKey, Message replayMessage, Messag
         Main.app.rsaE = new RSAAlgorithm(gatewayPublicKey);
         this.aesKey = aes.decrypt(finalMessage.key);
         thermostat = new Thermostat();
-        String increase = "INCREASE";
-        String decrease = "DECREASE";
-        String custom = "CUSTOM";
+        String increase = "sendEvent(name: set_target_temp value: increase)";
+        String decrease = "sendEvent(name: set_target_temp value: decrease)";
+        String custom = "sendEvent(name: set_target_temp value: custom)";
         Main.gateway.initialize(thermostat);
     setContentPane(main_panel);
     setTitle("Thermostat Controller");
@@ -80,7 +80,7 @@ public void initialize(String user, String aesKey, Message replayMessage, Messag
     });
 }
     private void newRequest(String command, String custom) throws Exception {
-
+    if(!custom.equals(""))
         custom_temp_field.setText("");
         aes = new AESAlgorithm(aesKey);
         Message m = new Message(command, custom);
@@ -91,11 +91,15 @@ public void initialize(String user, String aesKey, Message replayMessage, Messag
     }
 
     public void receiveResponse(Message m) throws Exception {
+    if(lockdown) {
+        updateField.setText(m.update);
+        return;
+    }
         aesKey = Main.app.rsaD.decrypt(m.key);
-        atk.aesKey = aesKey;
         atk.captureSymmetricKey(aesKey);
         aes = new AESAlgorithm(aesKey);
         if(m.error == true) {
+            lockdown = true;
             increase_button.setEnabled(false);
             decrease_button.setEnabled(false);
             custom_button.setEnabled(false);

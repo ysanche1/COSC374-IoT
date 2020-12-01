@@ -51,19 +51,21 @@ public class Login extends JFrame implements Runnable {
             @Override
             public synchronized void actionPerformed(ActionEvent e) {
                 //get text in fields and close the window
-                System.out.println("    ******LOGIN BUTTON PRESSED******\n");
-                clientID = clientIdField.getText();
-                password = String.copyValueOf(passwordField.getPassword());
-                setVisible(false);
-                clientIdField.setText("");
-                passwordField.setText("");
-                processing.processMed();
-                try {
-                    authorizationExchangeInit(kdc);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
+                System.out.println("    ****** LOGIN BUTTON PRESSED ******\n");
+                if (!clientIdField.getText().equals("") & !String.copyValueOf(passwordField.getPassword()).equals("")) {
+                    clientID = clientIdField.getText();
+                    password = String.copyValueOf(passwordField.getPassword());
+                    setVisible(false);
+                    clientIdField.setText("");
+                    passwordField.setText("");
+                    processing.processMed();
+                    try {
+                        authorizationExchangeInit(kdc);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
                 }
-            }
+                }
         });
     }
 
@@ -83,7 +85,7 @@ public class Login extends JFrame implements Runnable {
     {
         message = new Message();
         message = message.createMessage1(clientID, tgsID);
-        System.out.println("	******MESSAGE 1 SENT**********\n");
+        System.out.println("	*********** MESSAGE 1 SENT ***********\n");
         processing.processMed();
         message = kdc.as.handleMessage(message);//get message 2;
         if (message.error)     //error is set if clientID or tgsID are rejected
@@ -97,7 +99,7 @@ public class Login extends JFrame implements Runnable {
     // send message 3 to ticket-granting-server, create authenticator 1
     public synchronized void ticketGrantingServiceExchangeInit(Kerberos kdc) throws Exception {
         message = message.createMessage3(gatewayID, ticket, createAuthenticator());
-        System.out.println("	**********MESSAGE 3 SENT******\n");
+        System.out.println("	******** MESSAGE 3 SENT ********\n");
         processing.processMed();
         message = kdc.tgs.handleMessage(message); //Get message 4
         if (message.error)
@@ -109,7 +111,7 @@ public class Login extends JFrame implements Runnable {
     // called for messages 2 and 4 to retrieve tickets and begin next phase of login
     public synchronized void attemptDecryption(Kerberos kdc, String key) throws Exception {
         if (kdc.as.attemptsRemaining) {
-            System.out.println("    ******ATTEMPTING DECRYPTION******\n");
+            System.out.println("    ****** ATTEMPTING DECRYPTION ******\n");
             processing.processLong();
             processing.processLong();
             aes = new AESAlgorithm(key);
@@ -118,12 +120,11 @@ public class Login extends JFrame implements Runnable {
             } catch (Exception e) {
                 kdc.as.failureNotification("password", message);  // decryption failure = wrong password
                 message.clear(); // reset message
-                message.displayContents(); // check that message is reset
                 message.ticketRetrieval = false;
                 setVisible(true); // bring login window back
             }
             if (message.ticketRetrieval) {
-                System.out.println("    ******DECRYPTION SUCCESSFUL******\n");
+                System.out.println("    ****** DECRYPTION SUCCESSFUL ******\n");
                 processing.processMed();
                 message.displayContents();
                 ticket = message.ticket;
@@ -138,17 +139,23 @@ public class Login extends JFrame implements Runnable {
                         break;
                     case 4:
                         message.ticket.displayContents();
-                        aes = new AESAlgorithm(sharedKey);
-                        String pub_str = Main.app.rsaK.keyToStr(Main.app.appPublickKey);
-                        message = message.createMessage5(aes.encrypt(pub_str), message.ticket, createAuthenticator());
-                        ticketRetrieved = true;
-                        Message finalMessage = Main.gateway.receiveSGT(message);
-                        Main.tc.initialize(clientID, sharedKey, message, finalMessage);
-                        Main.gateway.loggedIn = true;
+                        attemptLogin(message);
                         break;
                 }
             }
         }
+    }
+
+    private void attemptLogin(Message m) throws Exception {
+        aes = new AESAlgorithm(sharedKey);
+        String pub_str = Main.app.rsaK.keyToStr(Main.app.appPublickKey);
+        System.out.println("    ******** ENCRYPTING MESSAGE 5 ********\n");
+        message = m.createMessage5(aes.encrypt(pub_str), m.ticket, createAuthenticator());
+        ticketRetrieved = true;
+        System.out.println("    ******* ATTEMPTING LOGIN *******\n");
+        Message finalMessage = Main.gateway.receiveSGT(message);
+        Main.tc.initialize(clientID, sharedKey, message, finalMessage);
+        Main.gateway.loggedIn = true;
     }
 
     // create a new authenticator

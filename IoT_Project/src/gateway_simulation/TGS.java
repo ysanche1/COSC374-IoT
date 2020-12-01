@@ -22,7 +22,7 @@ public class TGS {
     public Message handleMessage(Message m) throws Exception {
         aes = new AESAlgorithm(keyAS_TGS);
         aes.decryptMessage(m);
-        System.out.println("    ********TICKET RETRIEVED******\n");
+        System.out.println("    ******* TICKET RETRIEVED *******\n");
         processing.processFast();
         processing.processMed();
         if (Long.parseLong(m.ticket.lifetime) < System.currentTimeMillis()  //timestamp check
@@ -31,11 +31,11 @@ public class TGS {
             m.clear();
             m.error = true;
         } else {
-            System.out.println("    ******TIMESTAMP APPROVED******\n");
+            System.out.println("    ****** TIMESTAMP APPROVED ******\n");
             processing.processMed();
             m.ticket.displayContents();
             keyC_TGS = m.ticket.key; //TGS and client now in possession of shared key
-           m = createReply(m);
+            m = createReply(m);
         }
         return m;
     }
@@ -43,17 +43,16 @@ public class TGS {
     // construct and encrypt message 4
     private Message createReply(Message m) throws Exception {
         m.ticket = new Ticket(keyC_V, m.ticket.clientID, m.ticket.clientAD, m.serverID);
-        m.displayContents();
         m=m.createMessage4(keyC_V, m.serverID, m.ticket); // message 4
         aes = new AESAlgorithm(keyC_TGS, keyTGS_V);
-        System.out.println("	*********ENCRYPTING MESSAGE 4*********\n");
+        System.out.println("	********* ENCRYPTING MESSAGE 4 *********\n");
         processing.processLong();processing.processLong();
         aes.encryptMessage(m);
-        System.out.println("	*********MESSAGE 4 ENCRYPTED**********\n");
+        System.out.println("	********* MESSAGE 4 ENCRYPTED **********\n");
         processing.processMed();
         m.displayContents();
         m.ticket.displayContents();
-        System.out.println("	******MESSAGE 4 SENT*************\n");
+        System.out.println("	********* MESSAGE 4 SENT **********\n");
         processing.processMed();
         return m;
     }

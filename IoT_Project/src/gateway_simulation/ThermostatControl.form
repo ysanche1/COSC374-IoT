@@ -172,10 +172,10 @@
         <children>
           <component id="2aa8c" class="javax.swing.JButton" binding="cloudCrash">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Cloud Crash"/>
+              <text value="Cloud Toggle"/>
             </properties>
           </component>
           <component id="9efc4" class="javax.swing.JButton" binding="suspiciousActionButton" default-binding="true">

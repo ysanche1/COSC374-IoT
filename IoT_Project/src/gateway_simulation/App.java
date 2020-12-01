@@ -25,8 +25,4 @@ public class App{
         this.kdc = kdc;
         login = new Login(kdc);
     }
-
-
     }
-
-

@@ -9,7 +9,7 @@ import java.security.PublicKey;
 import static java.lang.Integer.valueOf;
 
 public class AttackSim{
-    public String aesKey;
+    public String aesKey ="";
     public PublicKey thermPublicKey;
     Message capturedMessage;
     Boolean ticketCaptured = false;
@@ -41,14 +41,11 @@ public class AttackSim{
         cloudCrash.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JButton c = (JButton)e.getSource();
                 if(Main.tcCloud.cloudOnline){
                     Main.tcCloud.cloudOnline = false;
-                    c.setText("Restore Cloud");
                 }
                 else {
                     Main.tcCloud.cloudOnline = true;
-                    c.setText("Crash Cloud");
                 }
             }
 
@@ -59,23 +56,23 @@ public class AttackSim{
 
     private void attemptLogin() throws Exception {
         if(!ticketCaptured) {
-            System.out.println("(((SGT not captured)))");
+            System.out.println("    (((SGT not captured)))");
         }
         else {
-            System.out.println("\n(((Attempting Login Using Captured Ticket)))");
+            System.out.println("    (((Attempting Login Using Captured Ticket)))\n");
             confirmation = Main.gateway.receiveSGT(capturedMessage);
-            Thread t = new Thread(confirmation);
-            t.start();
+           // Thread t = new Thread(confirmation);        //display message contents without holding up program
+           // t.start();
         }
     }
 
     private void attemptDoorUnlock() throws Exception {
         if(!keyCaptured) {
-            System.out.println("(((AES + RSA keys not captured)))");
+            System.out.println("    (((AES + RSA keys not captured)))");
         }
         else {
-            System.out.println("\n(((Attempting to unlock door)))");
-            Message unlock_door = new Message("UNLOCK DOOR", "");
+            System.out.println("    (((Attempting to unlock door)))\n");
+            Message unlock_door = new Message("sendEvent(name: lock, value: unlocked, isStateChange: true, displayed: true)", "");
             RSAAlgorithm rsa = new RSAAlgorithm(thermPublicKey);
             AESAlgorithm aes = new AESAlgorithm(aesKey);
             unlock_door.command = aes.encrypt(unlock_door.command);
@@ -87,10 +84,12 @@ public class AttackSim{
     void copyMessage(Message m){
         capturedMessage = new Message(m);
         ticketCaptured = true;
-        System.out.println("(((Service Granting Ticket Captured by Attacker)))\n");
+        System.out.println(" (((Service granting ticket captured)))\n");
     }
 
     public void captureSymmetricKey(String aesKey) {
+        if(this.aesKey.equals(""))
+            System.out.println("    (((Attacker has symmetric key)))\n");
         this.aesKey = aesKey;
         keyCaptured = true;
     }

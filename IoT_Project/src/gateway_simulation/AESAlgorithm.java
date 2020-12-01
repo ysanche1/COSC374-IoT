@@ -38,7 +38,6 @@ public class AESAlgorithm {
         m.serverID = encrypt(m.serverID);
         m.timestamp = encrypt(m.timestamp);
         if(m.mNum == 2)m.lifetime = encrypt(m.lifetime);}
-       // m.ticketRetrieval = encrypt(m.ticketRetrieval);
     }
 
     // ticket encryption method
